@@ -1,0 +1,58 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Glitch"
+config/version="0.0.1s"
+run/main_scene="res://scenes/main.tscn"
+config/features=PackedStringArray("4.2", "Mobile")
+run/low_processor_mode=true
+config/icon="res://icon.svg"
+
+[autoload]
+
+ShaderPresets="*res://src/presets/Presets.gd"
+GlitchShader="*res://src/GlitchShader.gd"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/energy_saving/keep_screen_on=false
+
+[editor_plugins]
+
+enabled=PackedStringArray()
+
+[input]
+
+zoom_out={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":16,"position":Vector2(244, 15),"global_position":Vector2(248, 56),"factor":1.0,"button_index":5,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+zoom_in={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":8,"position":Vector2(270, 19),"global_position":Vector2(274, 60),"factor":1.0,"button_index":4,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+drag={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(183, 23),"global_position":Vector2(187, 64),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+
+[rendering]
+
+renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
+textures/lossless_compression/force_png=true
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

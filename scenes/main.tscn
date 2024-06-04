@@ -1,0 +1,153 @@
+[gd_scene load_steps=9 format=3 uid="uid://bjah7k4bxo044"]
+
+[ext_resource type="Script" path="res://src/Main.gd" id="1_2625y"]
+[ext_resource type="Script" path="res://src/ImageViewport.gd" id="2_hvo65"]
+[ext_resource type="Script" path="res://src/ImageViewportDisplays.gd" id="3_n4itb"]
+[ext_resource type="Shader" path="res://src/ui_background.gdshader" id="4_ty3qx"]
+[ext_resource type="Script" path="res://src/Editor.gd" id="7_g8bap"]
+[ext_resource type="Script" path="res://src/Camera.gd" id="8_mls06"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_lct1c"]
+viewport_path = NodePath("ImageViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_onhxk"]
+shader = ExtResource("4_ty3qx")
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_2625y")
+
+[node name="ImageViewport" type="SubViewport" parent="."]
+disable_3d = true
+canvas_item_default_texture_filter = 0
+render_target_update_mode = 4
+script = ExtResource("2_hvo65")
+
+[node name="ImageSprite" type="Sprite2D" parent="ImageViewport"]
+
+[node name="ImageViewportDisplay" type="Sprite2D" parent="."]
+texture = SubResource("ViewportTexture_lct1c")
+script = ExtResource("3_n4itb")
+
+[node name="UI_Layer" type="CanvasLayer" parent="."]
+
+[node name="UserInterfaceContainer" type="Control" parent="UI_Layer"]
+layout_mode = 3
+anchor_right = 0.225
+anchor_bottom = 1.0
+offset_right = 288.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="UI_Layer/UserInterfaceContainer"]
+material = SubResource("ShaderMaterial_onhxk")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="OpenFileDialog" type="FileDialog" parent="UI_Layer/UserInterfaceContainer"]
+title = "Open a File"
+size = Vector2i(521, 159)
+ok_button_text = "Öffnen"
+file_mode = 0
+access = 2
+use_native_dialog = true
+
+[node name="SaveFileDialog" type="FileDialog" parent="UI_Layer/UserInterfaceContainer"]
+title = "Export Image"
+size = Vector2i(661, 159)
+ok_button_text = "Speichern"
+access = 2
+filters = PackedStringArray("*.png")
+use_native_dialog = true
+
+[node name="OpenImageButton" type="Button" parent="UI_Layer/UserInterfaceContainer"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 136.0
+offset_bottom = 56.0
+text = "Load Image"
+
+[node name="SaveImageButton" type="Button" parent="UI_Layer/UserInterfaceContainer"]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 24.0
+offset_right = 272.0
+offset_bottom = 56.0
+text = "Export Image"
+
+[node name="FitImageButton" type="Button" parent="UI_Layer/UserInterfaceContainer"]
+layout_mode = 0
+offset_left = 288.0
+offset_top = 24.0
+offset_right = 376.0
+offset_bottom = 56.0
+text = "Fit Image"
+
+[node name="Editor" type="Control" parent="UI_Layer/UserInterfaceContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 80.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_g8bap")
+
+[node name="Label" type="Label" parent="UI_Layer/UserInterfaceContainer/Editor"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 104.0
+offset_bottom = 40.0
+text = "Load Preset: "
+vertical_alignment = 1
+
+[node name="PresetOptions" type="OptionButton" parent="UI_Layer/UserInterfaceContainer/Editor"]
+layout_mode = 0
+offset_left = 104.0
+offset_top = 8.0
+offset_right = 240.0
+offset_bottom = 32.0
+
+[node name="CodeEdit" type="CodeEdit" parent="UI_Layer/UserInterfaceContainer/Editor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 14
+placeholder_text = "// Test"
+wrap_mode = 1
+minimap_draw = true
+minimap_width = 40
+caret_blink = true
+draw_control_chars = true
+draw_tabs = true
+draw_spaces = true
+line_length_guidelines = Array[int]([80])
+gutters_draw_line_numbers = true
+code_completion_enabled = true
+indent_automatic = true
+auto_brace_completion_enabled = true
+auto_brace_completion_highlight_matching = true
+
+[node name="Camera" type="Camera2D" parent="."]
+script = ExtResource("8_mls06")
+
+[connection signal="file_selected" from="UI_Layer/UserInterfaceContainer/OpenFileDialog" to="." method="_on_open_file_dialog_file_selected"]
+[connection signal="file_selected" from="UI_Layer/UserInterfaceContainer/SaveFileDialog" to="." method="_on_save_file_dialog_file_selected"]
+[connection signal="pressed" from="UI_Layer/UserInterfaceContainer/OpenImageButton" to="." method="_on_open_image_button_pressed"]
+[connection signal="pressed" from="UI_Layer/UserInterfaceContainer/SaveImageButton" to="." method="_on_save_image_button_pressed"]
+[connection signal="pressed" from="UI_Layer/UserInterfaceContainer/FitImageButton" to="Camera" method="_on_fit_image_button_pressed"]
+[connection signal="item_selected" from="UI_Layer/UserInterfaceContainer/Editor/PresetOptions" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_preset_options_item_selected"]
+[connection signal="code_completion_requested" from="UI_Layer/UserInterfaceContainer/Editor/CodeEdit" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_code_edit_code_completion_requested"]
+[connection signal="text_changed" from="UI_Layer/UserInterfaceContainer/Editor/CodeEdit" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_code_edit_text_changed"]

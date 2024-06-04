@@ -30,6 +30,15 @@ script = ExtResource("3_n4itb")
 
 [node name="UI_Layer" type="CanvasLayer" parent="."]
 
+[node name="FokusStealer" type="Control" parent="UI_Layer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+
 [node name="UserInterfaceContainer" type="Control" parent="UI_Layer"]
 layout_mode = 3
 anchor_right = 0.225
@@ -46,6 +55,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 2
 color = Color(1, 1, 1, 0)
 
 [node name="OpenFileDialog" type="FileDialog" parent="UI_Layer/UserInterfaceContainer"]

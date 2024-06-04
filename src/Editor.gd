@@ -110,7 +110,6 @@ func _ready():
 func _on_code_edit_text_changed():
 	var shader = Shader.new()
 	shader.code = code_editor.text
-	code_editor.request_code_completion()
 	GlitchShader.shader = shader
 	GlitchShader.apply()
 

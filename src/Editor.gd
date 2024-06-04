@@ -2,10 +2,6 @@ extends Control
 
 @onready var preset_options = $PresetOptions
 @onready var code_editor = $CodeEdit
-
-@onready var camera_freeze = get_parent().get_parent().get_parent().find_child("Camera").freeze
-@onready var camera_unfreeze = get_parent().get_parent().get_parent().find_child("Camera").unfreeze
-
 var selected_preset_name = ShaderPresets.default_preset
 
 #
@@ -99,24 +95,30 @@ func _on_code_edit_code_completion_requested():
 
 #
 
+func _camera_freeze():
+	Globals.camera_freeze = true
+
+func _camera_unfreeze():
+	Globals.camera_freeze = false
+
 func _ready():
 	code_editor.code_completion_enabled = true
 	code_editor.syntax_highlighter = ShaderSyntaxHighlighter.new()
 	for c in get_children():
-		c.connect("mouse_entered", camera_freeze)
-		c.connect("mouse_exited", camera_unfreeze)
+		c.connect("mouse_entered", _camera_freeze)
+		c.connect("mouse_exited", _camera_unfreeze)
 	update()
 
 func _on_code_edit_text_changed():
 	var shader = Shader.new()
 	shader.code = code_editor.text
-	GlitchShader.shader = shader
-	GlitchShader.apply()
+	Globals.shader = shader
+	Globals.target_viewport.update()
 
 func _on_preset_options_item_selected(index):
 	selected_preset_name = preset_options.get_item_text(index)
-	GlitchShader.shader = ShaderPresets.presets[selected_preset_name]
-	GlitchShader.apply()
+	Globals.shader = ShaderPresets.presets[selected_preset_name]
+	Globals.target_viewport.update()
 	update()
 
 func update():
@@ -131,4 +133,4 @@ func update():
 		preset_options.add_item(p)
 	preset_options.select(current_p_idx)
 	# weirdness ends here
-	code_editor.text = GlitchShader.shader.code
+	code_editor.text = Globals.shader.code

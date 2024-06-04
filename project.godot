@@ -20,7 +20,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 ShaderPresets="*res://src/presets/Presets.gd"
-GlitchShader="*res://src/GlitchShader.gd"
+Globals="*res://src/Globals.gd"
 
 [display]
 

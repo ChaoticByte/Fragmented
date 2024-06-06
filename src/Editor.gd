@@ -4,12 +4,15 @@ extends Control
 @onready var code_editor = $CodeEdit
 var selected_preset_name = ShaderPresets.default_preset
 
+# # # # # # # # # # #
+# GDShader keywords #
+# https://github.com/godotengine/godot/blob/e96ad5af98547df71b50c4c4695ac348638113e0/servers/rendering/shader_language.cpp
+# https://github.com/godotengine/godot/blob/e96ad5af98547df71b50c4c4695ac348638113e0/servers/rendering/shader_types.cpp
 #
-
+const gdshader_boolean_values = [
+	"true", "false"
+]
 const gdshader_datatypes = [
-	"in", "out", "inout",
-	"varying", "uniform",
-	"const", "lowp", "mediump", "heighp",
 	"void",
 	"bool", "bvec2", "bvec3", "bvec4",
 	"int", "ivec2", "ivec3", "ivec4",
@@ -21,79 +24,152 @@ const gdshader_datatypes = [
 	"sample3D", "isampler3D", "usample3D",
 	"samplerCube", "sampleCubeArray"
 ]
-
+const gdshader_precision_modifiers = [
+	"lowp", "mediump", "heighp"
+]
+const gdshader_global_space_keywords = [
+	"uniform", "group_uniforms", "varying", "const",
+	"struct", "shader_type", "render_mode"
+]
+const gdshader_uniform_qualifiers = [
+	"instance", "global"
+]
+const gdshader_block_keywords = [
+	"if", "else",
+	"for", "while", "do",
+	"switch", "case",
+	"default", "break", "continue",
+	"return", "discard"
+]
+const gdshader_function_specifier_keywords = [
+	"in", "out", "inout"
+]
+const gdshader_hints = [
+	"source_color", "hint_range", "instance_index"
+]
+const gdshader_sampler_hints = [
+	"hint_normal",
+	"hint_default_white", "hint_default_black", "hint_default_transparent",
+	"hint_anisotropy",
+	"hint_roughness_r", "hint_roughness_g", "hint_roughness_b", "hint_roughness_a",
+	"hint_roughness_normal", "hint_roughness_gray",
+	"hint_screen_texture", "hint_normal_roughness_texture",
+	"hint_depth_texture",
+	"filter_nearest", "filter_linear",
+	"filter_nearest_mipmap", "filter_linear_mipmap",
+	"filter_nearest_mipmap_anisotropic", "filter_linear_mipmap_anisotropic",
+	"repeat_enable", "repeat_disable"
+]
+const gdshader_builtin_functions = [
+	"radians", "degrees",
+	"sin", "cos", "tan", "asin", "acos", "atan", "sinh", "cosh", "tanh",
+	"asinh", "acosh", "atanh",
+	"pow", "exp", "log", "exp2", "log2", "sqrt", "inversesqrt",
+	"abs", "sign", "floor", "trunc", "round", "roundEven", "ceil", "fract",
+	"mod", "modf", "min", "max", "clamp",
+	"mix", "step", "smoothstep",
+	"isnan", "isinf",
+	"floatBitsToInt", "floatBitsToUint", "intBitsToFloat", "uintBitsToFloat",
+	"length", "distance",
+	"dot", "cross",
+	"normalize", "reflect", "refract", "faceforward",
+	"matrixCompMult", "outerProduct", "transpose",
+	"determinant", "inverse",
+	"lessThan", "greaterThan", "lessThanEqual", "greaterThanEqual",
+	"equal", "notEqual",
+	"any", "all", "not",
+	"textureSize", "texture", "textureProj", "textureLod", "texelFetch",
+	"textureProjLod", "textureGrad", "textureProjGrad", "textureGather",
+	"textureQueryLod", "textureQueryLevels",
+	"dFdx", "dFdxCoarse", "dFdxFine", "dFdy", "dFdyCoarse", "dFdyFine",
+	"fwidth", "fwidthCoarse", "fwidthFine"
+]
+const gdshader_sub_functions = [
+	"length", "fma",
+	"packHalf2x16", "packUnorm2x16", "packSnorm2x16", "packUnorm4x8", "packSnorm4x8",
+	"unpackHalf2x16", "unpackUnorm2x16", "unpackSnorm2x16", "unpackUnorm4x8", "unpackSnorm4x8",
+	"bitfieldExtract", "bitfieldInsert", "bitfieldReverse", "bitCount",
+	"findLSB", "findMSB",
+	"umulExtended", "imulExtended",
+	"uaddCarry", "usubBorrow",
+	"ldexp", "frexp"
+]
 const gdshader_builtins = [
 	"TIME", "PI", "TAU", "E",
-	"MODEL_MATRIX",
-	"CANVAS_MATRIX",
-	"SCREEN_MATRIX",
-	"INSTANCE_ID",
-	"INSTANCE_CUSTOM",
-	"AT_LIGHT_PASS",
-	"TEXTURE_PIXEL_SIZE",
 	"VERTEX",
-	"VERTEX_ID",
 	"UV",
 	"COLOR",
 	"POINT_SIZE",
-	"FRAGCOORD",
-	"SCREEN_PIXEL_SIZE",
-	"POINT_COORD",
-	"TEXTURE",
+	"MODEL_MATRIX", "CANVAS_MATRIX", "SCREEN_MATRIX",
+	"INSTANCE_CUSTOM", "INSTANCE_ID",
+	"VERTEX_ID",
+	"AT_LIGHT_PASS",
 	"TEXTURE_PIXEL_SIZE",
-	"SPECULAR_SHININESS_TEXTURE",
-	"SPECULAR_SHININESS",
-	"UV",
-	"SCREEN_UV",
-	"SCREEN_TEXTURE",
-	"NORMAL",
-	"NORMAL_TEXTURE",
-	"NORMAL_MAP",
-	"NORMAL_MAP_DEPTH",
-	"SHADOW_VERTEX",
-	"LIGHT_VERTEX"
+	"CUSTOM0", "CUSTOM1",
+	"SHADOW_VERTEX", "LIGHT_VERTEX",
+	"FRAGCOORD",
+	"NORMAL", "NORMAL_MAP", "NORMAL_MAP_DEPTH",
+	"TEXTURE", "NORMAL_TEXTURE",
+	"SPECULAR_SHININESS_TEXTURE", "SPECULAR_SHININESS",
+	"SCREEN_UV", "SCREEN_PIXEL_SIZE",
+	"POINT_COORD",
+	"LIGHT_COLOR", "LIGHT_POSITION", "LIGHT_DIRECTION",
+	"LIGHT_ENERGY", "LIGHT_IS_DIRECTIONAL", "LIGHT",
+	"SHADOW_MODULATE"
 ]
-
-const gdshader_flow_control = [
-	"if", "else",
-	"for",
-	"do", "while",
-	"switch", "case",
-	"break",
-	"return"
-]
-
+#
+# configure Highlighter
+#
 class ShaderSyntaxHighlighter extends CodeHighlighter:
 	func _init():
 		add_color_region("//", "", Color.WEB_GRAY, true)
 		add_color_region("/*", "*/", Color.WEB_GRAY, false)
 		function_color = Color.INDIAN_RED
-		keyword_colors = {
-			"shader_type": Color.ORCHID
-		}
-		for dt in gdshader_datatypes:
-			keyword_colors[dt] = Color.INDIAN_RED
-		for bi in gdshader_builtins:
-			keyword_colors[bi] = Color.DARK_TURQUOISE
-		for fc in gdshader_flow_control:
-			keyword_colors[fc] = Color.CORAL
+		for k in gdshader_boolean_values:
+			keyword_colors[k] = Color.INDIAN_RED
+		for k in (	gdshader_datatypes
+					+ gdshader_hints
+					+ gdshader_sampler_hints
+					+ gdshader_global_space_keywords
+					+ gdshader_function_specifier_keywords
+					+ gdshader_precision_modifiers
+					+ gdshader_uniform_qualifiers):
+			keyword_colors[k] = Color.ORCHID;
+		for k in gdshader_block_keywords:
+			keyword_colors[k] = Color.CORAL
+		for k in gdshader_builtins:
+			keyword_colors[k] = Color.DARK_TURQUOISE
 		member_variable_color = Color.LIGHT_BLUE
 		number_color = Color.AQUA
 		symbol_color = Color.GRAY
-
-func _on_code_edit_code_completion_requested():
-	for dt in gdshader_datatypes:
-		code_editor.code_completion_prefixes.append(dt)
-		code_editor.add_code_completion_option(CodeEdit.KIND_CLASS, dt, dt, Color.INDIAN_RED)
-	for bi in gdshader_builtins:
-		code_editor.code_completion_prefixes.append(bi)
-		code_editor.add_code_completion_option(CodeEdit.KIND_VARIABLE, bi, bi, Color.DARK_TURQUOISE)
-	for fc in gdshader_flow_control:
-		code_editor.code_completion_prefixes.append(fc)
-		code_editor.add_code_completion_option(CodeEdit.KIND_PLAIN_TEXT, fc, fc, Color.DARK_TURQUOISE)
-	code_editor.update_code_completion_options(true)
-
 #
+# and code completion
+#
+func _on_code_edit_code_completion_requested():
+	for k in gdshader_boolean_values:
+		code_editor.code_completion_prefixes.append(k)
+		code_editor.add_code_completion_option(CodeEdit.KIND_PLAIN_TEXT, k, k, Color.INDIAN_RED)
+	for k in (	gdshader_datatypes
+				+ gdshader_hints
+				+ gdshader_sampler_hints
+				+ gdshader_global_space_keywords
+				+ gdshader_function_specifier_keywords
+				+ gdshader_precision_modifiers
+				+ gdshader_uniform_qualifiers):
+		code_editor.code_completion_prefixes.append(k)
+		code_editor.add_code_completion_option(CodeEdit.KIND_CLASS, k, k, Color.ORCHID)
+	for k in gdshader_block_keywords:
+		code_editor.code_completion_prefixes.append(k)
+		code_editor.add_code_completion_option(CodeEdit.KIND_PLAIN_TEXT, k, k, Color.CORAL)
+	for k in gdshader_builtins:
+		code_editor.code_completion_prefixes.append(k)
+		code_editor.add_code_completion_option(CodeEdit.KIND_CONSTANT, k, k, Color.DARK_TURQUOISE)
+	for k in gdshader_builtin_functions + gdshader_sub_functions:
+		code_editor.code_completion_prefixes.append(k)
+		code_editor.add_code_completion_option(CodeEdit.KIND_FUNCTION, k, k+"(", Color.INDIAN_RED)
+	code_editor.update_code_completion_options(true)
+#
+# # # # # # # # # # # #
 
 func _camera_freeze():
 	Globals.camera_freeze = true

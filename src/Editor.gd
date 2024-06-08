@@ -2,6 +2,8 @@ extends Control
 
 @onready var preset_options = $PresetOptions
 @onready var code_editor = $CodeEdit
+@onready var open_shader_dialog = $OpenShaderDialog
+@onready var save_shader_dialog = $SaveShaderDialog
 var selected_preset_name = ShaderPresets.default_preset
 
 # # # # # # # # # # #
@@ -210,3 +212,24 @@ func update():
 	preset_options.select(current_p_idx)
 	# weirdness ends here
 	code_editor.text = Globals.shader.code
+
+func _on_open_shader_button_pressed():
+	open_shader_dialog.show()
+
+func _on_save_shader_button_pressed():
+	save_shader_dialog.current_file = selected_preset_name + "_custom.gdshader"
+	save_shader_dialog.show()
+
+func _on_open_shader_dialog_file_selected(path):
+	var file = FileAccess.open(path, FileAccess.READ)
+	var shader_code = file.get_as_text()
+	var shader = Shader.new()
+	shader.code = shader_code
+	Globals.shader = shader
+	Globals.target_viewport.update()
+	update()
+
+func _on_save_shader_dialog_file_selected(path):
+	var file = FileAccess.open(path, FileAccess.WRITE)
+	var content = Globals.shader.code
+	file.store_string(content)

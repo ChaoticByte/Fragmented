@@ -18,14 +18,15 @@ func _input(event):
 		global_position -= event.relative / zoom
 
 func fit_image():
-	var ui_container_size = user_interface_container.size
-	var image_size = image_viewport.image_original_tex.get_size()
-	var viewport_size = get_viewport_rect().size
-	var zoomf = (viewport_size.x - ui_container_size.x) / image_size.x / 1.1
-	if zoomf * image_size.y > viewport_size.y:
-		zoomf = viewport_size.y / image_size.y / 1.1
-	zoom = Vector2(zoomf, zoomf)
-	global_position = Vector2(-((ui_container_size.x) / 2 / zoom.x), 0)
+	if image_viewport.image_original_tex != null:
+		var ui_container_size = user_interface_container.size
+		var image_size = image_viewport.image_original_tex.get_size()
+		var viewport_size = get_viewport_rect().size
+		var zoomf = (viewport_size.x - ui_container_size.x) / image_size.x / 1.1
+		if zoomf * image_size.y > viewport_size.y:
+			zoomf = viewport_size.y / image_size.y / 1.1
+		zoom = Vector2(zoomf, zoomf)
+		global_position = Vector2(-((ui_container_size.x) / 2 / zoom.x), 0)
 
 func zoom_in():
 	var old_mouse_pos = get_global_mouse_position()

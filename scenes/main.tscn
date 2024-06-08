@@ -58,15 +58,15 @@ grow_vertical = 2
 focus_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="OpenFileDialog" type="FileDialog" parent="UI_Layer/UserInterfaceContainer"]
-title = "Open a File"
+[node name="OpenImageDialog" type="FileDialog" parent="UI_Layer/UserInterfaceContainer"]
+title = "Load Image"
 size = Vector2i(521, 159)
 ok_button_text = "Öffnen"
 file_mode = 0
 access = 2
 use_native_dialog = true
 
-[node name="SaveFileDialog" type="FileDialog" parent="UI_Layer/UserInterfaceContainer"]
+[node name="SaveImageDialog" type="FileDialog" parent="UI_Layer/UserInterfaceContainer"]
 title = "Export Image"
 size = Vector2i(661, 159)
 ok_button_text = "Speichern"
@@ -84,17 +84,17 @@ text = "Load Image"
 
 [node name="SaveImageButton" type="Button" parent="UI_Layer/UserInterfaceContainer"]
 layout_mode = 0
-offset_left = 152.0
+offset_left = 144.0
 offset_top = 24.0
-offset_right = 272.0
+offset_right = 264.0
 offset_bottom = 56.0
 text = "Export Image"
 
 [node name="FitImageButton" type="Button" parent="UI_Layer/UserInterfaceContainer"]
-layout_mode = 0
-offset_left = 288.0
+layout_mode = 1
+offset_left = 272.0
 offset_top = 24.0
-offset_right = 376.0
+offset_right = 360.0
 offset_bottom = 56.0
 text = "Fit Image"
 
@@ -111,6 +111,23 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("7_g8bap")
 
+[node name="OpenShaderDialog" type="FileDialog" parent="UI_Layer/UserInterfaceContainer/Editor"]
+title = "Load Shader"
+size = Vector2i(521, 159)
+ok_button_text = "Öffnen"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.gdshader")
+use_native_dialog = true
+
+[node name="SaveShaderDialog" type="FileDialog" parent="UI_Layer/UserInterfaceContainer/Editor"]
+title = "Save Shader"
+size = Vector2i(661, 159)
+ok_button_text = "Speichern"
+access = 2
+filters = PackedStringArray("*.gdshader")
+use_native_dialog = true
+
 [node name="Label" type="Label" parent="UI_Layer/UserInterfaceContainer/Editor"]
 layout_mode = 0
 offset_top = 8.0
@@ -124,7 +141,7 @@ layout_mode = 0
 offset_left = 104.0
 offset_top = 8.0
 offset_right = 240.0
-offset_bottom = 32.0
+offset_bottom = 40.0
 
 [node name="CodeEdit" type="CodeEdit" parent="UI_Layer/UserInterfaceContainer/Editor"]
 layout_mode = 1
@@ -150,14 +167,39 @@ indent_automatic = true
 auto_brace_completion_enabled = true
 auto_brace_completion_highlight_matching = true
 
+[node name="OpenShaderButton" type="Button" parent="UI_Layer/UserInterfaceContainer/Editor"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -120.0
+offset_right = -64.0
+offset_bottom = 32.0
+grow_horizontal = 0
+text = "Open"
+
+[node name="SaveShaderButton" type="Button" parent="UI_Layer/UserInterfaceContainer/Editor"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -56.0
+offset_bottom = 32.0
+grow_horizontal = 0
+text = "Save"
+
 [node name="Camera" type="Camera2D" parent="."]
 script = ExtResource("8_mls06")
 
-[connection signal="file_selected" from="UI_Layer/UserInterfaceContainer/OpenFileDialog" to="." method="_on_open_file_dialog_file_selected"]
-[connection signal="file_selected" from="UI_Layer/UserInterfaceContainer/SaveFileDialog" to="." method="_on_save_file_dialog_file_selected"]
+[connection signal="file_selected" from="UI_Layer/UserInterfaceContainer/OpenImageDialog" to="." method="_on_open_image_dialog_file_selected"]
+[connection signal="file_selected" from="UI_Layer/UserInterfaceContainer/SaveImageDialog" to="." method="_on_save_image_dialog_file_selected"]
 [connection signal="pressed" from="UI_Layer/UserInterfaceContainer/OpenImageButton" to="." method="_on_open_image_button_pressed"]
 [connection signal="pressed" from="UI_Layer/UserInterfaceContainer/SaveImageButton" to="." method="_on_save_image_button_pressed"]
 [connection signal="pressed" from="UI_Layer/UserInterfaceContainer/FitImageButton" to="Camera" method="_on_fit_image_button_pressed"]
+[connection signal="file_selected" from="UI_Layer/UserInterfaceContainer/Editor/OpenShaderDialog" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_open_shader_dialog_file_selected"]
+[connection signal="file_selected" from="UI_Layer/UserInterfaceContainer/Editor/SaveShaderDialog" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_save_shader_dialog_file_selected"]
 [connection signal="item_selected" from="UI_Layer/UserInterfaceContainer/Editor/PresetOptions" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_preset_options_item_selected"]
 [connection signal="code_completion_requested" from="UI_Layer/UserInterfaceContainer/Editor/CodeEdit" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_code_edit_code_completion_requested"]
 [connection signal="text_changed" from="UI_Layer/UserInterfaceContainer/Editor/CodeEdit" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_code_edit_text_changed"]
+[connection signal="pressed" from="UI_Layer/UserInterfaceContainer/Editor/OpenShaderButton" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_open_shader_button_pressed"]
+[connection signal="pressed" from="UI_Layer/UserInterfaceContainer/Editor/SaveShaderButton" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_save_shader_button_pressed"]

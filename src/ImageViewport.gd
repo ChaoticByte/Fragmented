@@ -4,6 +4,11 @@ extends SubViewport
 
 var image_original_tex: ImageTexture
 var image_result: Image
+var load_uniform_regex: RegEx
+
+func _ready():
+	load_uniform_regex = RegEx.new()
+	load_uniform_regex.compile(r'\/\/!load\s(\w*)\s(.*)')
 
 func set_original_image(image: Image):
 	image_original_tex = ImageTexture.create_from_image(image)
@@ -16,6 +21,14 @@ func update():
 		image_sprite.texture = image_original_tex
 		var mat = ShaderMaterial.new()
 		mat.shader = Globals.shader
+		# load images from //!load directives and apply them to
+		# the material as shader parameters
+		for m in load_uniform_regex.search_all(Globals.shader.code):
+			var u_image = Image.load_from_file(m.strings[2])
+			mat.set_shader_parameter(
+				m.strings[1], # uniform param name
+				ImageTexture.create_from_image(u_image))
+		# assign material
 		image_sprite.material = mat
 		# Get viewport texture
 		await RenderingServer.frame_post_draw # for good measure

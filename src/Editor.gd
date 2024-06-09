@@ -5,6 +5,7 @@ extends Control
 @onready var open_shader_dialog = $OpenShaderDialog
 @onready var save_shader_dialog = $SaveShaderDialog
 var selected_preset_name = ShaderPresets.default_preset
+var last_save_filepath = ""
 
 # # # # # # # # # # #
 # GDShader keywords #
@@ -196,6 +197,7 @@ func _on_preset_options_item_selected(index):
 	Globals.shader = ShaderPresets.presets[selected_preset_name]
 	Globals.target_viewport.update()
 	update()
+	last_save_filepath = ""
 
 func update():
 	preset_options.clear()
@@ -215,7 +217,10 @@ func _on_open_shader_button_pressed():
 	open_shader_dialog.show()
 
 func _on_save_shader_button_pressed():
-	save_shader_dialog.current_file = selected_preset_name + "_custom.gdshader"
+	if last_save_filepath == "":
+		save_shader_dialog.current_file = selected_preset_name + "_custom.gdshader"
+	else:
+		save_shader_dialog.current_path = last_save_filepath
 	save_shader_dialog.show()
 
 func _on_open_shader_dialog_file_selected(path):
@@ -226,11 +231,13 @@ func _on_open_shader_dialog_file_selected(path):
 	Globals.shader = shader
 	Globals.target_viewport.update()
 	update()
+	last_save_filepath = ""
 
 func _on_save_shader_dialog_file_selected(path):
 	var file = FileAccess.open(path, FileAccess.WRITE)
 	var content = Globals.shader.code
 	file.store_string(content)
+	last_save_filepath = path
 
 func _on_apply_shader_button_pressed():
 	var shader = Shader.new()

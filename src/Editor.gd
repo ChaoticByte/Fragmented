@@ -187,11 +187,9 @@ func _ready():
 		c.connect("mouse_exited", _camera_unfreeze)
 	update()
 
-func _on_code_edit_text_changed():
-	var shader = Shader.new()
-	shader.code = code_editor.text
-	Globals.shader = shader
-	Globals.target_viewport.update()
+func _input(event):
+	if event.is_action_pressed("apply_shader"):
+		_on_apply_shader_button_pressed()
 
 func _on_preset_options_item_selected(index):
 	selected_preset_name = preset_options.get_item_text(index)
@@ -233,3 +231,9 @@ func _on_save_shader_dialog_file_selected(path):
 	var file = FileAccess.open(path, FileAccess.WRITE)
 	var content = Globals.shader.code
 	file.store_string(content)
+
+func _on_apply_shader_button_pressed():
+	var shader = Shader.new()
+	shader.code = code_editor.text
+	Globals.shader = shader
+	Globals.target_viewport.update()

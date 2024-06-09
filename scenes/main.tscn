@@ -172,8 +172,8 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -120.0
-offset_right = -64.0
+offset_left = -216.0
+offset_right = -160.0
 offset_bottom = 32.0
 grow_horizontal = 0
 text = "Open"
@@ -183,10 +183,21 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -56.0
+offset_left = -152.0
+offset_right = -96.0
 offset_bottom = 32.0
 grow_horizontal = 0
 text = "Save"
+
+[node name="ApplyShaderButton" type="Button" parent="UI_Layer/UserInterfaceContainer/Editor"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -88.0
+offset_bottom = 32.0
+grow_horizontal = 0
+text = "Apply (F5)"
 
 [node name="Camera" type="Camera2D" parent="."]
 script = ExtResource("8_mls06")
@@ -200,6 +211,6 @@ script = ExtResource("8_mls06")
 [connection signal="file_selected" from="UI_Layer/UserInterfaceContainer/Editor/SaveShaderDialog" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_save_shader_dialog_file_selected"]
 [connection signal="item_selected" from="UI_Layer/UserInterfaceContainer/Editor/PresetOptions" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_preset_options_item_selected"]
 [connection signal="code_completion_requested" from="UI_Layer/UserInterfaceContainer/Editor/CodeEdit" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_code_edit_code_completion_requested"]
-[connection signal="text_changed" from="UI_Layer/UserInterfaceContainer/Editor/CodeEdit" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_code_edit_text_changed"]
 [connection signal="pressed" from="UI_Layer/UserInterfaceContainer/Editor/OpenShaderButton" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_open_shader_button_pressed"]
 [connection signal="pressed" from="UI_Layer/UserInterfaceContainer/Editor/SaveShaderButton" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_save_shader_button_pressed"]
+[connection signal="pressed" from="UI_Layer/UserInterfaceContainer/Editor/ApplyShaderButton" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_apply_shader_button_pressed"]

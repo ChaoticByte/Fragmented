@@ -191,6 +191,9 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("apply_shader"):
 		_on_apply_shader_button_pressed()
+	elif event.is_action_pressed("save_shader"):
+		accept_event() # Event is now handled.
+		_on_save_shader_button_pressed()
 
 func _on_preset_options_item_selected(index):
 	selected_preset_name = preset_options.get_item_text(index)

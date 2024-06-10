@@ -16,3 +16,5 @@ mono_crash.*.json
 dist/*
 !dist/.gitkeep
 
+screenshot.png.import
+

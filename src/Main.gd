@@ -20,16 +20,13 @@ func _on_open_image_dialog_file_selected(path):
 		image_viewport.set_original_image(img)
 		image_viewport.update()
 		camera.fit_image()
-		last_save_filepath = ""
+		last_save_filepath = path
 	else:
 		print("An error occured!")
 
 func _on_save_image_button_pressed():
 	if image_viewport.get_result() != null:
-		if last_save_filepath == "":
-			ui_control_filesave.current_file = "output.png"
-		else:
-			ui_control_filesave.current_path = last_save_filepath
+		ui_control_filesave.current_path = last_save_filepath
 		ui_control_filesave.show()
 
 func _on_save_image_dialog_file_selected(path):

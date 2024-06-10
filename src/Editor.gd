@@ -231,7 +231,7 @@ func _on_open_shader_dialog_file_selected(path):
 	Globals.shader = shader
 	Globals.target_viewport.update()
 	update()
-	last_save_filepath = ""
+	last_save_filepath = path
 
 func _on_save_shader_dialog_file_selected(path):
 	var file = FileAccess.open(path, FileAccess.WRITE)

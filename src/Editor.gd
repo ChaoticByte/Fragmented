@@ -22,10 +22,8 @@ const gdshader_datatypes = [
 	"uint", "uvec2", "uvec3", "uvec4",
 	"float", "vec2", "vec3", "vec4",
 	"mat2", "mat3", "mat4",
-	"sample2D", "isampler2D", "usample2D",
-	"sampler2DArray", "isample2DArray", "usample2DArray",
-	"sample3D", "isampler3D", "usample3D",
-	"samplerCube", "sampleCubeArray"
+	"sampler2D", "isampler2D", "usampler2D",
+	"sampler2DArray", "isampler2DArray", "usampler2DArray",
 ]
 const gdshader_precision_modifiers = [
 	"lowp", "mediump", "heighp"
@@ -113,12 +111,8 @@ const gdshader_builtins = [
 	"FRAGCOORD",
 	"NORMAL", "NORMAL_MAP", "NORMAL_MAP_DEPTH",
 	"TEXTURE", "NORMAL_TEXTURE",
-	"SPECULAR_SHININESS_TEXTURE", "SPECULAR_SHININESS",
 	"SCREEN_UV", "SCREEN_PIXEL_SIZE",
 	"POINT_COORD",
-	"LIGHT_COLOR", "LIGHT_POSITION", "LIGHT_DIRECTION",
-	"LIGHT_ENERGY", "LIGHT_IS_DIRECTIONAL", "LIGHT",
-	"SHADOW_MODULATE"
 ]
 #
 # configure Highlighter

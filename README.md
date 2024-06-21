@@ -7,8 +7,7 @@
 
 ## Supported Platforms
 
-- Linux [tested]
-- Windows
+- Linux
 
 You can find the latest releases [here](https://github.com/ChaoticByte/GlitchApp/releases/latest).
 

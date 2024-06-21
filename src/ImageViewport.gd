@@ -24,7 +24,13 @@ func update():
 		# load images from //!load directives and apply them to
 		# the material as shader parameters
 		for m in load_uniform_regex.search_all(Globals.shader.code):
-			var u_image = Image.load_from_file(m.strings[2])
+			# this only works for Linux!
+			var img_path = m.strings[2]
+			if !img_path.begins_with("/"):
+				img_path = Globals.cwd + "/" + img_path.lstrip("./")
+			#
+			print("Load ", img_path)
+			var u_image = Image.load_from_file(img_path)
 			mat.set_shader_parameter(
 				m.strings[1], # uniform param name
 				ImageTexture.create_from_image(u_image))

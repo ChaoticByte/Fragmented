@@ -14,6 +14,7 @@ func _on_open_image_button_pressed():
 	ui_control_fileopen.show()
 
 func _on_open_image_dialog_file_selected(path):
+	print("Load ", path)
 	var img = Image.new()
 	var err = img.load(path)
 	if err == OK:
@@ -30,6 +31,7 @@ func _on_save_image_button_pressed():
 		ui_control_filesave.show()
 
 func _on_save_image_dialog_file_selected(path):
+	print("Export ", path)
 	var err = image_viewport.get_result().save_png(path)
 	if err != OK:
 		print("An error occured!")

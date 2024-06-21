@@ -220,20 +220,26 @@ func _on_save_shader_button_pressed():
 		save_shader_dialog.current_path = last_save_filepath
 	save_shader_dialog.show()
 
-func _on_open_shader_dialog_file_selected(path):
+func _on_open_shader_dialog_file_selected(path: String):
+	print("Load ", path)
 	var file = FileAccess.open(path, FileAccess.READ)
 	var shader_code = file.get_as_text()
 	var shader = Shader.new()
 	shader.code = shader_code
 	Globals.shader = shader
+	if "/" in path: # update current working directory
+		Globals.cwd = path.substr(0, path.rfind("/"))
 	Globals.target_viewport.update()
 	update()
 	last_save_filepath = path
 
 func _on_save_shader_dialog_file_selected(path):
+	print("Save ", path)
 	var file = FileAccess.open(path, FileAccess.WRITE)
 	var content = Globals.shader.code
 	file.store_string(content)
+	if "/" in path: # update current working directory
+		Globals.cwd = path.substr(0, path.rfind("/"))
 	last_save_filepath = path
 
 func _on_apply_shader_button_pressed():

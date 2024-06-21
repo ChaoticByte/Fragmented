@@ -236,7 +236,7 @@ func _on_open_shader_dialog_file_selected(path: String):
 func _on_save_shader_dialog_file_selected(path):
 	print("Save ", path)
 	var file = FileAccess.open(path, FileAccess.WRITE)
-	var content = Globals.shader.code
+	var content = code_editor.text
 	file.store_string(content)
 	if "/" in path: # update current working directory
 		Globals.cwd = path.substr(0, path.rfind("/"))

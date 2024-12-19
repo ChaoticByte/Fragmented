@@ -36,12 +36,12 @@ Have a look at the `mix.gdshader` example:
 ```glsl
 shader_type canvas_item;
 
-//!load ./example1.png
+//!load ./swamp.jpg
 
-//!load+ img2 ./example2.jpg
+//!load+ img2 ./overlay.jpg
 uniform sampler2D img2: repeat_enable, filter_nearest;
 
 void fragment() {
-	COLOR = mix(COLOR, texture(img2, UV), .5);
+	COLOR = mix(COLOR, texture(img2, UV), .2);
 }
 ```

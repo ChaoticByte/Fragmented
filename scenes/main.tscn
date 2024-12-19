@@ -67,9 +67,9 @@ color = Color(1, 1, 1, 0)
 [node name="AppName" type="Label" parent="UI_Layer/UserInterfaceContainer"]
 layout_mode = 0
 offset_left = 24.0
-offset_top = 24.0
+offset_top = 16.0
 offset_right = 208.0
-offset_bottom = 56.0
+offset_bottom = 48.0
 theme_override_font_sizes/font_size = 20
 text = "Fragmented"
 vertical_alignment = 2
@@ -77,9 +77,9 @@ vertical_alignment = 2
 [node name="AppVersion" type="Label" parent="UI_Layer/UserInterfaceContainer"]
 layout_mode = 0
 offset_left = 152.0
-offset_top = 24.0
+offset_top = 17.0
 offset_right = 208.0
-offset_bottom = 55.0
+offset_bottom = 47.0
 theme_override_font_sizes/font_size = 14
 text = "v0
 "
@@ -92,7 +92,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 24.0
-offset_top = 80.0
+offset_top = 64.0
 offset_right = -24.0
 offset_bottom = -24.0
 grow_horizontal = 2

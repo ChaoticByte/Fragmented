@@ -5,6 +5,7 @@ extends Node2D
 
 
 func _ready():
+	DisplayServer.window_set_min_size(Vector2i(900, 500))
 	Globals.target_viewport = image_viewport
 
 func _on_save_image_button_pressed():

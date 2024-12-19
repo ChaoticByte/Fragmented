@@ -1,5 +1,7 @@
 shader_type canvas_item;
 
+//!load ./swamp.jpg
+
 const float strength = 0.1;
 
 void fragment() {

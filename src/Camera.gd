@@ -2,8 +2,9 @@ extends Camera2D
 
 var drag = false
 
-@onready var user_interface_container = get_parent().get_node("UI_Layer/UserInterfaceContainer")
-@onready var image_viewport = get_parent().get_node("ImageViewport")
+@onready var user_interface_container = %UserInterfaceContainer
+@onready var image_viewport = %ImageViewport
+@onready var image_viewport_display = %ImageViewportDisplay
 
 func _input(event):
 	if event.is_action_pressed("zoom_out") && !Globals.camera_freeze:
@@ -32,11 +33,13 @@ func zoom_in():
 	var old_mouse_pos = get_global_mouse_position()
 	zoom *= 1.2
 	global_position += old_mouse_pos - get_global_mouse_position()
+	image_viewport_display.update_zoom_texture_filter(zoom)
 
 func zoom_out():
 	var old_mouse_pos = get_global_mouse_position()
 	zoom *= 1/1.2
 	global_position += old_mouse_pos - get_global_mouse_position()
+	image_viewport_display.update_zoom_texture_filter(zoom)
 
 func _on_fit_image_button_pressed():
 	fit_image()

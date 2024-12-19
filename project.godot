@@ -27,6 +27,7 @@ window/size/viewport_width=1280
 window/size/viewport_height=720
 window/size/mode=2
 window/energy_saving/keep_screen_on=false
+window/vsync/vsync_mode=0
 
 [editor_plugins]
 
@@ -69,4 +70,5 @@ save_shader={
 renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
 textures/lossless_compression/force_png=true
+shader_compiler/shader_cache/enabled=false
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)

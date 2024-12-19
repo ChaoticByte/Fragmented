@@ -1,11 +1,8 @@
 extends Control
 
-@onready var preset_options = $PresetOptions
-@onready var code_editor = $CodeEdit
-@onready var open_shader_dialog = $OpenShaderDialog
-@onready var save_shader_dialog = $SaveShaderDialog
-var selected_preset_name = ShaderPresets.default_preset
-var last_save_filepath = ""
+@onready var code_editor = %CodeEdit
+@onready var open_shader_dialog = %OpenShaderDialog
+@onready var save_shader_dialog = %SaveShaderDialog
 
 # # # # # # # # # # #
 # GDShader keywords #
@@ -189,35 +186,17 @@ func _input(event):
 		accept_event() # Event is now handled.
 		_on_save_shader_button_pressed()
 
-func _on_preset_options_item_selected(index):
-	selected_preset_name = preset_options.get_item_text(index)
-	Globals.shader = ShaderPresets.presets[selected_preset_name]
-	Globals.target_viewport.update()
-	update()
-	last_save_filepath = ""
-
 func update():
-	preset_options.clear()
-	# the following lines are weird af
-	var presets: Array[String] = []
-	var current_p_idx = 0
-	for p in ShaderPresets.presets:
-		presets.append(p)
-		if p == selected_preset_name:
-			current_p_idx = len(presets) - 1
-		preset_options.add_item(p)
-	preset_options.select(current_p_idx)
-	# weirdness ends here
 	code_editor.text = Globals.shader.code
 
 func _on_open_shader_button_pressed():
 	open_shader_dialog.show()
 
 func _on_save_shader_button_pressed():
-	if last_save_filepath == "":
-		save_shader_dialog.current_file = selected_preset_name + "_custom.gdshader"
+	if Globals.last_shader_savepath == "":
+		save_shader_dialog.current_file = "shader.gdshader"
 	else:
-		save_shader_dialog.current_path = last_save_filepath
+		save_shader_dialog.current_path = Globals.last_shader_savepath
 	save_shader_dialog.show()
 
 func _on_open_shader_dialog_file_selected(path: String):
@@ -231,7 +210,7 @@ func _on_open_shader_dialog_file_selected(path: String):
 		Globals.cwd = path.substr(0, path.rfind("/"))
 	Globals.target_viewport.update()
 	update()
-	last_save_filepath = path
+	Globals.last_shader_savepath = path
 
 func _on_save_shader_dialog_file_selected(path):
 	print("Save ", path)
@@ -240,7 +219,7 @@ func _on_save_shader_dialog_file_selected(path):
 	file.store_string(content)
 	if "/" in path: # update current working directory
 		Globals.cwd = path.substr(0, path.rfind("/"))
-	last_save_filepath = path
+	Globals.last_shader_savepath = path
 
 func _on_apply_shader_button_pressed():
 	var shader = Shader.new()

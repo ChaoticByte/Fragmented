@@ -67,16 +67,15 @@ offset_top = 24.0
 offset_right = 208.0
 offset_bottom = 56.0
 theme_override_font_sizes/font_size = 20
-text = "GlitchApp
-"
+text = "Fragmented"
 vertical_alignment = 2
 
 [node name="AppVersion" type="Label" parent="UI_Layer/UserInterfaceContainer"]
 layout_mode = 0
-offset_left = 128.0
+offset_left = 152.0
 offset_top = 24.0
 offset_right = 208.0
-offset_bottom = 56.0
+offset_bottom = 55.0
 theme_override_font_sizes/font_size = 14
 text = "v0
 "

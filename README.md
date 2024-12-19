@@ -1,5 +1,5 @@
 
-<h1 align=center>GlitchApp</h1>
+<h1 align=center>Fragmented</h1>
 
 ![screenshot](./screenshot.png)
 
@@ -9,7 +9,7 @@
 
 - Linux
 
-You can find the latest releases [here](https://github.com/ChaoticByte/GlitchApp/releases/latest).
+You can find the latest releases [here](https://github.com/ChaoticByte/Fragmented/releases/latest).
 
 ## Usage
 

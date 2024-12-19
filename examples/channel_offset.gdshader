@@ -1,5 +1,7 @@
 shader_type canvas_item;
 
+//!load ./swamp.jpg
+
 const vec2 offset_r = vec2(-0.002, -0.002);
 const vec2 offset_g = vec2(0., 0.);
 const vec2 offset_b = vec2(0.002, 0.002);

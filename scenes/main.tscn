@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://src/Main.gd" id="1_2625y"]
 [ext_resource type="Script" path="res://src/ImageViewport.gd" id="2_hvo65"]
-[ext_resource type="Script" path="res://src/ImageViewportDisplays.gd" id="3_n4itb"]
+[ext_resource type="Script" path="res://src/ImageViewportDisplay.gd" id="3_n4itb"]
 [ext_resource type="Shader" path="res://src/ui_background.gdshader" id="4_ty3qx"]
 [ext_resource type="Script" path="res://src/UIAppVersion.gd" id="5_o1ggv"]
 [ext_resource type="Script" path="res://src/Editor.gd" id="7_g8bap"]
@@ -18,6 +18,7 @@ shader = ExtResource("4_ty3qx")
 script = ExtResource("1_2625y")
 
 [node name="ImageViewport" type="SubViewport" parent="."]
+unique_name_in_owner = true
 disable_3d = true
 transparent_bg = true
 canvas_item_default_texture_filter = 0
@@ -25,8 +26,10 @@ render_target_update_mode = 4
 script = ExtResource("2_hvo65")
 
 [node name="ImageSprite" type="Sprite2D" parent="ImageViewport"]
+unique_name_in_owner = true
 
 [node name="ImageViewportDisplay" type="Sprite2D" parent="."]
+unique_name_in_owner = true
 texture = SubResource("ViewportTexture_lct1c")
 script = ExtResource("3_n4itb")
 
@@ -42,6 +45,7 @@ grow_vertical = 2
 focus_mode = 2
 
 [node name="UserInterfaceContainer" type="Control" parent="UI_Layer"]
+unique_name_in_owner = true
 layout_mode = 3
 anchor_right = 0.225
 anchor_bottom = 1.0
@@ -63,79 +67,24 @@ color = Color(1, 1, 1, 0)
 [node name="AppName" type="Label" parent="UI_Layer/UserInterfaceContainer"]
 layout_mode = 0
 offset_left = 24.0
-offset_top = 24.0
+offset_top = 16.0
 offset_right = 208.0
-offset_bottom = 56.0
+offset_bottom = 48.0
 theme_override_font_sizes/font_size = 20
-text = "GlitchApp
-"
+text = "Fragmented"
 vertical_alignment = 2
 
 [node name="AppVersion" type="Label" parent="UI_Layer/UserInterfaceContainer"]
 layout_mode = 0
-offset_left = 128.0
-offset_top = 24.0
+offset_left = 152.0
+offset_top = 17.0
 offset_right = 208.0
-offset_bottom = 56.0
+offset_bottom = 47.0
 theme_override_font_sizes/font_size = 14
 text = "v0
 "
 vertical_alignment = 2
 script = ExtResource("5_o1ggv")
-
-[node name="OpenImageDialog" type="FileDialog" parent="UI_Layer/UserInterfaceContainer"]
-title = "Load Image"
-size = Vector2i(521, 159)
-ok_button_text = "Open"
-mode_overrides_title = false
-file_mode = 0
-access = 2
-use_native_dialog = true
-
-[node name="SaveImageDialog" type="FileDialog" parent="UI_Layer/UserInterfaceContainer"]
-title = "Export Image"
-size = Vector2i(661, 159)
-ok_button_text = "Save"
-mode_overrides_title = false
-access = 2
-filters = PackedStringArray("*.png")
-use_native_dialog = true
-
-[node name="OpenImageButton" type="Button" parent="UI_Layer/UserInterfaceContainer"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -360.0
-offset_top = 24.0
-offset_right = -248.0
-offset_bottom = 56.0
-grow_horizontal = 0
-text = "Load Image"
-
-[node name="SaveImageButton" type="Button" parent="UI_Layer/UserInterfaceContainer"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -240.0
-offset_top = 23.0
-offset_right = -120.0
-offset_bottom = 55.0
-grow_horizontal = 0
-text = "Export Image"
-
-[node name="FitImageButton" type="Button" parent="UI_Layer/UserInterfaceContainer"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -112.0
-offset_top = 24.0
-offset_right = -24.0
-offset_bottom = 56.0
-grow_horizontal = 0
-text = "Fit Image"
 
 [node name="Editor" type="Control" parent="UI_Layer/UserInterfaceContainer"]
 layout_mode = 1
@@ -143,7 +92,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 24.0
-offset_top = 80.0
+offset_top = 64.0
 offset_right = -24.0
 offset_bottom = -24.0
 grow_horizontal = 2
@@ -151,8 +100,9 @@ grow_vertical = 2
 script = ExtResource("7_g8bap")
 
 [node name="OpenShaderDialog" type="FileDialog" parent="UI_Layer/UserInterfaceContainer/Editor"]
+unique_name_in_owner = true
 title = "Load Shader"
-size = Vector2i(521, 159)
+size = Vector2i(521, 175)
 ok_button_text = "Open"
 mode_overrides_title = false
 file_mode = 0
@@ -161,28 +111,27 @@ filters = PackedStringArray("*.gdshader")
 use_native_dialog = true
 
 [node name="SaveShaderDialog" type="FileDialog" parent="UI_Layer/UserInterfaceContainer/Editor"]
+unique_name_in_owner = true
 title = "Save Shader"
-size = Vector2i(661, 159)
+size = Vector2i(661, 175)
 ok_button_text = "Save"
 mode_overrides_title = false
 access = 2
 filters = PackedStringArray("*.gdshader")
 use_native_dialog = true
 
-[node name="Label" type="Label" parent="UI_Layer/UserInterfaceContainer/Editor"]
-layout_mode = 0
-offset_right = 104.0
-offset_bottom = 32.0
-text = "Load Preset: "
-vertical_alignment = 1
-
-[node name="PresetOptions" type="OptionButton" parent="UI_Layer/UserInterfaceContainer/Editor"]
-layout_mode = 0
-offset_left = 104.0
-offset_right = 240.0
-offset_bottom = 32.0
+[node name="SaveImageDialog" type="FileDialog" parent="UI_Layer/UserInterfaceContainer/Editor"]
+unique_name_in_owner = true
+title = "Export Image"
+size = Vector2i(661, 175)
+ok_button_text = "Save"
+mode_overrides_title = false
+access = 2
+filters = PackedStringArray("*.png")
+use_native_dialog = true
 
 [node name="CodeEdit" type="CodeEdit" parent="UI_Layer/UserInterfaceContainer/Editor"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -208,48 +157,55 @@ auto_brace_completion_highlight_matching = true
 
 [node name="OpenShaderButton" type="Button" parent="UI_Layer/UserInterfaceContainer/Editor"]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -216.0
-offset_right = -160.0
+offset_right = 56.0
 offset_bottom = 32.0
-grow_horizontal = 0
 text = "Open"
 
 [node name="SaveShaderButton" type="Button" parent="UI_Layer/UserInterfaceContainer/Editor"]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -152.0
-offset_right = -96.0
+offset_left = 64.0
+offset_right = 120.0
 offset_bottom = 32.0
-grow_horizontal = 0
 text = "Save"
 
 [node name="ApplyShaderButton" type="Button" parent="UI_Layer/UserInterfaceContainer/Editor"]
 layout_mode = 1
+offset_left = 128.0
+offset_right = 216.0
+offset_bottom = 32.0
+text = "Apply (F5)"
+
+[node name="SaveImageButton" type="Button" parent="UI_Layer/UserInterfaceContainer/Editor"]
+layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -88.0
+offset_left = -120.0
 offset_bottom = 32.0
 grow_horizontal = 0
-text = "Apply (F5)"
+text = "Export Image"
+
+[node name="FitImageButton" type="Button" parent="UI_Layer/UserInterfaceContainer/Editor"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -216.0
+offset_right = -128.0
+offset_bottom = 32.0
+grow_horizontal = 0
+text = "Fit Image"
 
 [node name="Camera" type="Camera2D" parent="."]
+unique_name_in_owner = true
 script = ExtResource("8_mls06")
 
-[connection signal="file_selected" from="UI_Layer/UserInterfaceContainer/OpenImageDialog" to="." method="_on_open_image_dialog_file_selected"]
-[connection signal="file_selected" from="UI_Layer/UserInterfaceContainer/SaveImageDialog" to="." method="_on_save_image_dialog_file_selected"]
-[connection signal="pressed" from="UI_Layer/UserInterfaceContainer/OpenImageButton" to="." method="_on_open_image_button_pressed"]
-[connection signal="pressed" from="UI_Layer/UserInterfaceContainer/SaveImageButton" to="." method="_on_save_image_button_pressed"]
-[connection signal="pressed" from="UI_Layer/UserInterfaceContainer/FitImageButton" to="Camera" method="_on_fit_image_button_pressed"]
 [connection signal="file_selected" from="UI_Layer/UserInterfaceContainer/Editor/OpenShaderDialog" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_open_shader_dialog_file_selected"]
 [connection signal="file_selected" from="UI_Layer/UserInterfaceContainer/Editor/SaveShaderDialog" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_save_shader_dialog_file_selected"]
-[connection signal="item_selected" from="UI_Layer/UserInterfaceContainer/Editor/PresetOptions" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_preset_options_item_selected"]
+[connection signal="file_selected" from="UI_Layer/UserInterfaceContainer/Editor/SaveImageDialog" to="." method="_on_save_image_dialog_file_selected"]
 [connection signal="code_completion_requested" from="UI_Layer/UserInterfaceContainer/Editor/CodeEdit" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_code_edit_code_completion_requested"]
 [connection signal="pressed" from="UI_Layer/UserInterfaceContainer/Editor/OpenShaderButton" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_open_shader_button_pressed"]
 [connection signal="pressed" from="UI_Layer/UserInterfaceContainer/Editor/SaveShaderButton" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_save_shader_button_pressed"]
 [connection signal="pressed" from="UI_Layer/UserInterfaceContainer/Editor/ApplyShaderButton" to="UI_Layer/UserInterfaceContainer/Editor" method="_on_apply_shader_button_pressed"]
+[connection signal="pressed" from="UI_Layer/UserInterfaceContainer/Editor/SaveImageButton" to="." method="_on_save_image_button_pressed"]
+[connection signal="pressed" from="UI_Layer/UserInterfaceContainer/Editor/FitImageButton" to="Camera" method="_on_fit_image_button_pressed"]

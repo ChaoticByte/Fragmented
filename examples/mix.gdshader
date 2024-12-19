@@ -1,8 +1,10 @@
 shader_type canvas_item;
 
-//!load img2 ./icon.png
+//!load ./swamp.jpg
+
+//!load+ img2 ./overlay.jpg
 uniform sampler2D img2: repeat_enable, filter_nearest;
 
 void fragment() {
-	COLOR = mix(COLOR, texture(img2, UV), .5);
+	COLOR = mix(COLOR, texture(img2, UV), .2);
 }

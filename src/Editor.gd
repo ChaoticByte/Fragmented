@@ -171,7 +171,7 @@ func _on_code_edit_code_completion_requested():
 func _ready():
 	code_editor.code_completion_enabled = true
 	code_editor.syntax_highlighter = ShaderSyntaxHighlighter.new()
-	update()
+	self.update()
 
 func _input(event):
 	if event.is_action_pressed("apply_shader"):
@@ -181,55 +181,36 @@ func _input(event):
 		_on_save_shader_button_pressed()
 
 func update():
-	code_editor.text = Globals.shader.code
+	code_editor.text = Filesystem.shader.code
 
 func _on_open_shader_button_pressed():
 	open_shader_dialog.show()
 
 func _on_save_shader_button_pressed():
-	if Globals.last_shader_savepath == "":
-		save_shader_dialog.current_file = "shader.gdshader"
+	if Filesystem.last_shader_savepath == "":
+		save_shader_dialog.current_file = "filter.gdshader"
 	else:
-		save_shader_dialog.current_path = Globals.last_shader_savepath
+		save_shader_dialog.current_path = Filesystem.last_shader_savepath
 	save_shader_dialog.show()
 
 func _on_open_shader_dialog_file_selected(path: String):
-	print("Load ", path)
-	var file = FileAccess.open(path, FileAccess.READ)
-	var shader_code = file.get_as_text()
-	var shader = Shader.new()
-	shader.code = shader_code
-	Globals.shader = shader
-	if "/" in path: # update current working directory
-		Globals.cwd = path.substr(0, path.rfind("/"))
+	Filesystem.load_shader(path)
 	image_viewport.update()
-	update()
-	Globals.last_shader_savepath = path
+	self.update()
 
 func _on_save_shader_dialog_file_selected(path):
-	print("Save ", path)
-	var file = FileAccess.open(path, FileAccess.WRITE)
-	var content = code_editor.text
-	file.store_string(content)
-	if "/" in path: # update current working directory
-		Globals.cwd = path.substr(0, path.rfind("/"))
-	Globals.last_shader_savepath = path
+	Filesystem.save_shader(path, code_editor.text)
 
 func _on_apply_shader_button_pressed():
 	var shader = Shader.new()
 	shader.code = code_editor.text
-	Globals.shader = shader
+	Filesystem.shader = shader
 	image_viewport.update()
 
 func _on_save_image_button_pressed():
-	if image_viewport.get_result() != null:
-		ui_control_filesave.current_path = Globals.last_image_savepath
+	if Filesystem.result != null:
+		ui_control_filesave.current_path = Filesystem.last_image_savepath
 		ui_control_filesave.show()
 
 func _on_save_image_dialog_file_selected(path):
-	print("Export ", path)
-	var err = image_viewport.get_result().save_png(path)
-	if err != OK:
-		print("An error occured!")
-	else:
-		Globals.last_image_savepath = path
+	Filesystem.save_result(path)

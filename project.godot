@@ -19,7 +19,8 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Globals="*res://src/Globals.gd"
+Filesystem="*res://src/Filesystem.gd"
+ShaderDirectiveParser="*res://src/ShaderDirectiveParser.gd"
 
 [display]
 

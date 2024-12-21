@@ -27,7 +27,7 @@ The image file will be read and available as the `TEXTURE` variable.
 #### Load additional images
 
 ```glsl
-//!load <name> <filepath>
+//!load+ <name> <filepath>
 uniform sampler2D <name>;
 ```
 

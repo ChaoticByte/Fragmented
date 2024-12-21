@@ -2,6 +2,7 @@ extends SubViewport
 
 @onready var camera = %Camera
 @onready var image_sprite = %ImageSprite
+@onready var image_viewport_display = %ImageViewportDisplay
 
 var image_original_tex: ImageTexture
 var image_result: Image
@@ -36,7 +37,7 @@ func update():
 	# load images from //!load directive -> TEXTURE
 	var regex_match = load_regex.search(Globals.shader.code)
 	if regex_match == null: # Error!
-		print("Didn't find any load directives!")
+		printerr("Didn't find any load directives!")
 		return
 	var tex_path = get_absolute_path(regex_match.strings[1])
 	load_texture(tex_path) # load every time
@@ -66,6 +67,7 @@ func update():
 	image_result = get_texture().get_image()
 	image_sprite.material = null
 	image_sprite.texture = ImageTexture.create_from_image(image_result)
+	image_viewport_display.show()
 
 func get_result():
 	return image_result

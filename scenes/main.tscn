@@ -1,12 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://bjah7k4bxo044"]
+[gd_scene load_steps=12 format=3 uid="uid://bjah7k4bxo044"]
 
 [ext_resource type="Script" path="res://src/Main.gd" id="1_2625y"]
 [ext_resource type="Script" path="res://src/ImageViewport.gd" id="2_hvo65"]
+[ext_resource type="Shader" path="res://src/shader/ivd_outline.gdshader" id="3_6xihe"]
 [ext_resource type="Script" path="res://src/ImageViewportDisplay.gd" id="3_n4itb"]
-[ext_resource type="Shader" path="res://src/ui_background.gdshader" id="4_ty3qx"]
+[ext_resource type="Shader" path="res://src/shader/ui_background.gdshader" id="4_ty3qx"]
 [ext_resource type="Script" path="res://src/UIAppVersion.gd" id="5_o1ggv"]
 [ext_resource type="Script" path="res://src/Editor.gd" id="7_g8bap"]
 [ext_resource type="Script" path="res://src/Camera.gd" id="8_mls06"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y2ea0"]
+shader = ExtResource("3_6xihe")
+shader_parameter/zoom_level = Vector2(1, 1)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_lct1c"]
 viewport_path = NodePath("ImageViewport")
@@ -30,6 +35,7 @@ unique_name_in_owner = true
 
 [node name="ImageViewportDisplay" type="Sprite2D" parent="."]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_y2ea0")
 texture = SubResource("ViewportTexture_lct1c")
 script = ExtResource("3_n4itb")
 

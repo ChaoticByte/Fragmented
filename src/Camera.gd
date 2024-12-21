@@ -29,17 +29,21 @@ func fit_image():
 		zoom = Vector2(zoomf, zoomf)
 		global_position = Vector2(-((ui_container_size.x) / 2 / zoom.x), 0)
 
+func update_viewport_display():
+	image_viewport_display.update_zoom_texture_filter(zoom)
+	image_viewport_display.material.set_shader_parameter("zoom_level", zoom)
+
 func zoom_in():
 	var old_mouse_pos = get_global_mouse_position()
 	zoom *= 1.2
 	global_position += old_mouse_pos - get_global_mouse_position()
-	image_viewport_display.update_zoom_texture_filter(zoom)
+	update_viewport_display()
 
 func zoom_out():
 	var old_mouse_pos = get_global_mouse_position()
 	zoom *= 1/1.2
 	global_position += old_mouse_pos - get_global_mouse_position()
-	image_viewport_display.update_zoom_texture_filter(zoom)
+	update_viewport_display()
 
 func _on_fit_image_button_pressed():
 	fit_image()

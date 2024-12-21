@@ -4,6 +4,9 @@ extends Control
 @onready var open_shader_dialog = %OpenShaderDialog
 @onready var save_shader_dialog = %SaveShaderDialog
 
+@onready var image_viewport = %ImageViewport
+@onready var ui_control_filesave = %SaveImageDialog
+
 # # # # # # # # # # #
 # GDShader keywords #
 # https://github.com/godotengine/godot/blob/e96ad5af98547df71b50c4c4695ac348638113e0/servers/rendering/shader_language.cpp
@@ -165,18 +168,9 @@ func _on_code_edit_code_completion_requested():
 #
 # # # # # # # # # # # #
 
-func _camera_freeze():
-	Globals.camera_freeze = true
-
-func _camera_unfreeze():
-	Globals.camera_freeze = false
-
 func _ready():
 	code_editor.code_completion_enabled = true
 	code_editor.syntax_highlighter = ShaderSyntaxHighlighter.new()
-	for c in get_children():
-		c.connect("mouse_entered", _camera_freeze)
-		c.connect("mouse_exited", _camera_unfreeze)
 	update()
 
 func _input(event):
@@ -208,7 +202,7 @@ func _on_open_shader_dialog_file_selected(path: String):
 	Globals.shader = shader
 	if "/" in path: # update current working directory
 		Globals.cwd = path.substr(0, path.rfind("/"))
-	Globals.target_viewport.update()
+	image_viewport.update()
 	update()
 	Globals.last_shader_savepath = path
 
@@ -225,4 +219,17 @@ func _on_apply_shader_button_pressed():
 	var shader = Shader.new()
 	shader.code = code_editor.text
 	Globals.shader = shader
-	Globals.target_viewport.update()
+	image_viewport.update()
+
+func _on_save_image_button_pressed():
+	if image_viewport.get_result() != null:
+		ui_control_filesave.current_path = Globals.last_image_savepath
+		ui_control_filesave.show()
+
+func _on_save_image_dialog_file_selected(path):
+	print("Export ", path)
+	var err = image_viewport.get_result().save_png(path)
+	if err != OK:
+		print("An error occured!")
+	else:
+		Globals.last_image_savepath = path

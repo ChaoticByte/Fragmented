@@ -23,10 +23,10 @@ Globals="*res://src/Globals.gd"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
-window/size/mode=2
+window/size/viewport_width=700
+window/size/viewport_height=700
 window/energy_saving/keep_screen_on=false
+window/subwindows/embed_subwindows=false
 window/vsync/vsync_mode=0
 
 [editor_plugins]

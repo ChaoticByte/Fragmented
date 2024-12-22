@@ -13,6 +13,8 @@ data_*/
 mono_crash.*.json
 
 # Builds
+*.x86_64
+godot.*.template_release.*
 dist/*
 !dist/.gitkeep
 

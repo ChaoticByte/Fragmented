@@ -45,3 +45,22 @@ void fragment() {
 	COLOR = mix(COLOR, texture(img2, UV), .2);
 }
 ```
+
+## Shaderlib
+
+This repo comes with a (still small) shader library including pre-written functions and more.
+Have a look at the `shaderlib` folder.
+
+Here is an example on how to use it (the `hsv.gdshader` example):
+
+```glsl
+shader_type canvas_item;
+
+#include "res://shaderlib/hsv.gdshaderinc"
+
+//!load ./swamp.jpg
+
+void fragment() {
+	COLOR = hsv_offset(COLOR, 0.32, 0.2, 0.0);
+}
+```

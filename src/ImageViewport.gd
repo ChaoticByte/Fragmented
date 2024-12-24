@@ -15,6 +15,7 @@ func update():
 		fit_image = true
 	Filesystem.load_original_image(original_image_path)
 	if Filesystem.original_image == null:
+		image_viewport_display.hide()
 		return
 	image_sprite.texture = Filesystem.original_image
 	image_sprite.offset = Filesystem.original_image.get_size() / 2

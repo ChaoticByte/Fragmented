@@ -1,6 +1,7 @@
 extends Node
 
-@onready var shader: Shader = load("res://src/shader/template.gdshader")
+@onready var template_shader: Shader = load("res://src/shader/template.gdshader")
+@onready var shader: Shader = template_shader.duplicate()
 var original_image: ImageTexture
 var result: Image
 
@@ -8,6 +9,14 @@ var cwd = "."
 var last_image_savepath = ""
 var last_shader_savepath = ""
 var last_original_image_path = ""
+
+func reset():
+	self.shader = self.template_shader.duplicate()
+	self.last_image_savepath = ""
+	self.last_shader_savepath = ""
+	self.last_original_image_path = ""
+	self.original_image = null
+	self.result = null
 
 func get_absolute_path(p: String) -> String:
 	# this only works on Linux!
@@ -50,10 +59,10 @@ func load_shader(path: String):
 		self.cwd = path.substr(0, path.rfind("/"))
 	self.last_shader_savepath = path
 
-func save_shader(path: String, content: String):
+func save_shader(path: String):
 	print("Save ", path)
 	var file = FileAccess.open(path, FileAccess.WRITE)
-	file.store_string(content)
+	file.store_string(self.shader.code)
 	if "/" in path: # update current working directory
 		self.cwd = path.substr(0, path.rfind("/"))
 	self.last_shader_savepath = path

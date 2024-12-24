@@ -24,8 +24,8 @@ ShaderDirectiveParser="*res://src/ShaderDirectiveParser.gd"
 
 [display]
 
-window/size/viewport_width=700
-window/size/viewport_height=700
+window/size/viewport_width=704
+window/size/viewport_height=704
 window/energy_saving/keep_screen_on=false
 window/subwindows/embed_subwindows=false
 window/vsync/vsync_mode=0

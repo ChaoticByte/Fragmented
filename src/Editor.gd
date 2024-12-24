@@ -1,11 +1,13 @@
 extends Control
 
 @onready var code_editor = %CodeEdit
+
 @onready var open_shader_dialog = %OpenShaderDialog
 @onready var save_shader_dialog = %SaveShaderDialog
-
-@onready var image_viewport = %ImageViewport
 @onready var ui_control_filesave = %SaveImageDialog
+
+@onready var image_viewport = get_tree().root.get_node("Main/%ImageViewport")
+@onready var camera = get_tree().root.get_node("Main/%Camera")
 
 # # # # # # # # # # #
 # GDShader keywords #
@@ -183,15 +185,44 @@ func _input(event):
 func update():
 	code_editor.text = Filesystem.shader.code
 
+#
+
+func _on_new_shader_button_pressed():
+	Filesystem.reset()
+	self.update()
+	image_viewport.update()
+
 func _on_open_shader_button_pressed():
 	open_shader_dialog.show()
 
 func _on_save_shader_button_pressed():
+	Filesystem.shader.code = code_editor.text
+	if Filesystem.last_shader_savepath == "":
+		_on_save_shader_as_button_pressed()
+	else:
+		_on_save_shader_dialog_file_selected(Filesystem.last_shader_savepath)
+
+func _on_save_shader_as_button_pressed() -> void:
+	Filesystem.shader.code = code_editor.text
 	if Filesystem.last_shader_savepath == "":
 		save_shader_dialog.current_file = "filter.gdshader"
 	else:
 		save_shader_dialog.current_path = Filesystem.last_shader_savepath
 	save_shader_dialog.show()
+
+func _on_fit_image_button_pressed():
+	camera.fit_image()
+
+func _on_apply_shader_button_pressed():
+	Filesystem.shader.code = code_editor.text
+	image_viewport.update()
+
+func _on_save_image_button_pressed():
+	if Filesystem.result != null:
+		ui_control_filesave.current_path = Filesystem.last_image_savepath
+		ui_control_filesave.show()
+
+#
 
 func _on_open_shader_dialog_file_selected(path: String):
 	Filesystem.load_shader(path)
@@ -199,18 +230,7 @@ func _on_open_shader_dialog_file_selected(path: String):
 	self.update()
 
 func _on_save_shader_dialog_file_selected(path):
-	Filesystem.save_shader(path, code_editor.text)
-
-func _on_apply_shader_button_pressed():
-	var shader = Shader.new()
-	shader.code = code_editor.text
-	Filesystem.shader = shader
-	image_viewport.update()
-
-func _on_save_image_button_pressed():
-	if Filesystem.result != null:
-		ui_control_filesave.current_path = Filesystem.last_image_savepath
-		ui_control_filesave.show()
+	Filesystem.save_shader(path)
 
 func _on_save_image_dialog_file_selected(path):
 	Filesystem.save_result(path)

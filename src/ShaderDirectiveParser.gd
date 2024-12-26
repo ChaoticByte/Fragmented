@@ -11,8 +11,7 @@ func _ready():
 
 func parse_load_directive(shader: Shader) -> PackedStringArray:
 	var regex_match = self._load_regex.search(Filesystem.shader.code)
-	if regex_match == null: # Error!
-		printerr("Didn't find any load directives!")
+	if regex_match == null:
 		return []
 	return regex_match.strings
 

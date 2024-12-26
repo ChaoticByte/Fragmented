@@ -6,8 +6,16 @@ extends Control
 @onready var save_shader_dialog = %SaveShaderDialog
 @onready var ui_control_filesave = %SaveImageDialog
 
+@onready var status_indicator = %StatusIndicator
+@onready var error_msg_dialog = %ErrorMessageDialog
+
 @onready var image_viewport = get_tree().root.get_node("Main/%ImageViewport")
 @onready var camera = get_tree().root.get_node("Main/%Camera")
+
+#
+
+var status_okay_texture: CompressedTexture2D = preload("uid://m1omb6g45vst")
+var status_error_texture: CompressedTexture2D = preload("uid://04iv1gogpuhu")
 
 # # # # # # # # # # #
 # GDShader keywords #
@@ -173,7 +181,7 @@ func _on_code_edit_code_completion_requested():
 func _ready():
 	code_editor.code_completion_enabled = true
 	code_editor.syntax_highlighter = ShaderSyntaxHighlighter.new()
-	self.update()
+	self.update_code_edit()
 
 func _input(event):
 	if event.is_action_pressed("apply_shader"):
@@ -182,15 +190,32 @@ func _input(event):
 		accept_event() # Event is now handled.
 		_on_save_shader_button_pressed()
 
-func update():
+func update_code_edit():
 	code_editor.text = Filesystem.shader.code
+
+enum Status {OKAY, ERROR, UNKNOWN = -1}
+
+func update_status(status: Status, msg: String = ""):
+	error_msg_dialog.dialog_text = msg
+	error_msg_dialog.reset_size()
+	if status == Status.OKAY:
+		status_indicator.texture_normal = status_okay_texture
+	elif status == Status.ERROR:
+		status_indicator.texture_normal = status_error_texture
+	else:
+		status_indicator.texture_normal = null
+	if msg == "":
+		status_indicator.disabled = true
+	else:
+		status_indicator.disabled = false
 
 #
 
 func _on_new_shader_button_pressed():
 	Filesystem.reset()
-	self.update()
+	self.update_code_edit()
 	image_viewport.update()
+	update_status(Status.UNKNOWN)
 
 func _on_open_shader_button_pressed():
 	open_shader_dialog.show()
@@ -215,7 +240,11 @@ func _on_fit_image_button_pressed():
 
 func _on_apply_shader_button_pressed():
 	Filesystem.shader.code = code_editor.text
-	image_viewport.update()
+	var errors = await image_viewport.update()
+	if len(errors) > 0:
+		update_status(Status.ERROR, "\n".join(errors))
+	else:
+		update_status(Status.OKAY)
 
 func _on_save_image_button_pressed():
 	if Filesystem.result != null:
@@ -226,11 +255,16 @@ func _on_save_image_button_pressed():
 
 func _on_open_shader_dialog_file_selected(path: String):
 	Filesystem.load_shader(path)
-	image_viewport.update()
-	self.update()
+	self.update_code_edit()
+	self._on_apply_shader_button_pressed()
 
 func _on_save_shader_dialog_file_selected(path):
 	Filesystem.save_shader(path)
 
 func _on_save_image_dialog_file_selected(path):
 	Filesystem.save_result(path)
+
+#
+
+func _on_status_indicator_pressed() -> void:
+	error_msg_dialog.show()

@@ -165,6 +165,29 @@ offset_bottom = 31.0
 grow_horizontal = 0
 text = "Apply (F5)"
 
+[node name="StatusIndicator" type="TextureButton" parent="Editor"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -80.0
+offset_top = 56.0
+offset_right = -56.0
+offset_bottom = 80.0
+grow_horizontal = 0
+disabled = true
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ErrorMessageDialog" type="AcceptDialog" parent="Editor"]
+unique_name_in_owner = true
+title = "Status"
+initial_position = 2
+size = Vector2i(256, 128)
+popup_window = true
+ok_button_text = "Close"
+
 [connection signal="file_selected" from="Editor/OpenShaderDialog" to="Editor" method="_on_open_shader_dialog_file_selected"]
 [connection signal="file_selected" from="Editor/SaveShaderDialog" to="Editor" method="_on_save_shader_dialog_file_selected"]
 [connection signal="file_selected" from="Editor/SaveImageDialog" to="Editor" method="_on_save_image_dialog_file_selected"]
@@ -176,3 +199,4 @@ text = "Apply (F5)"
 [connection signal="pressed" from="Editor/SaveImageButton" to="Editor" method="_on_save_image_button_pressed"]
 [connection signal="pressed" from="Editor/FitImageButton" to="Editor" method="_on_fit_image_button_pressed"]
 [connection signal="pressed" from="Editor/ApplyShaderButton" to="Editor" method="_on_apply_shader_button_pressed"]
+[connection signal="pressed" from="Editor/StatusIndicator" to="Editor" method="_on_status_indicator_pressed"]

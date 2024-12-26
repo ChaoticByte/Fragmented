@@ -2,7 +2,9 @@ extends Node
 
 @onready var template_shader: Shader = load("res://src/shader/template.gdshader")
 @onready var shader: Shader = template_shader.duplicate()
+
 var original_image: ImageTexture
+var additional_images: Dictionary
 var result: Image
 
 var cwd = "."
@@ -24,8 +26,7 @@ func get_absolute_path(p: String) -> String:
 		return self.cwd + "/" + p.lstrip("./")
 	return p
 
-func load_original_image(path: String):
-	print("Load ", path)
+func load_original_image(path: String) -> String: # returns an error message
 	var img = Image.new()
 	var err = img.load(path)
 	if err == OK:
@@ -34,12 +35,20 @@ func load_original_image(path: String):
 			self.last_original_image_path = path
 		if self.last_image_savepath == "":
 			self.last_image_savepath = path
-	else:
-		print("An error occured!")
+		return ""
+	return error_string(err) + " " + path
 
-func load_image(path: String) -> ImageTexture:
-	print("Load ", path)
-	return ImageTexture.create_from_image(Image.load_from_file(path))
+func clear_additional_images():
+	additional_images.clear()
+
+func load_additional_image(key: String, path: String) -> String: # returns Error Message String
+	var img = Image.new()
+	var err = img.load(path)
+	if err == OK:
+		additional_images[key] = ImageTexture.create_from_image(img)
+		return ""
+	else:
+		return error_string(err) + " " + path
 
 func save_result(path: String):
 	print("Export ", path)

@@ -9,7 +9,7 @@ extends Control
 @onready var status_indicator = %StatusIndicator
 @onready var error_msg_dialog = %ErrorMessageDialog
 
-@onready var image_viewport = get_tree().root.get_node("Main/%ImageViewport")
+@onready var compositor = get_tree().root.get_node("Main/%Compositor")
 @onready var camera = get_tree().root.get_node("Main/%Camera")
 
 #
@@ -214,7 +214,7 @@ func update_status(status: Status, msg: String = ""):
 func _on_new_shader_button_pressed():
 	Filesystem.reset()
 	self.update_code_edit()
-	image_viewport.update()
+	compositor.update()
 	update_status(Status.UNKNOWN)
 
 func _on_open_shader_button_pressed():
@@ -240,7 +240,7 @@ func _on_fit_image_button_pressed():
 
 func _on_apply_shader_button_pressed():
 	Filesystem.shader.code = code_editor.text
-	var errors = await image_viewport.update()
+	var errors = await compositor.update()
 	if len(errors) > 0:
 		update_status(Status.ERROR, "\n".join(errors))
 	else:

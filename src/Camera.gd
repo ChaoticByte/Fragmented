@@ -2,7 +2,6 @@ extends Camera2D
 
 var drag = false
 
-@onready var image_viewport = %ImageViewport
 @onready var image_viewport_display = %ImageViewportDisplay
 
 func _input(event):

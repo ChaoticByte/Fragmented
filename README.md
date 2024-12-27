@@ -31,18 +31,22 @@ The image file will be read and available as the `TEXTURE` variable.
 uniform sampler2D <name>;
 ```
 
-Have a look at the `mix.gdshader` example:
+Have a look at the `place_texture.gdshader` example:
 
 ```glsl
 shader_type canvas_item;
 
-//!load ./swamp.jpg
+#include "res://shaderlib/transform.gdshaderinc"
 
-//!load+ img2 ./overlay.jpg
-uniform sampler2D img2: repeat_enable, filter_nearest;
+//!load ./swamp.jpg
+//!load+ img2 ./grass.png
+
+uniform sampler2D img2: repeat_disable, filter_nearest;
 
 void fragment() {
-	COLOR = mix(COLOR, texture(img2, UV), .2);
+	vec4 grass = place_texture(img2, UV, TEXTURE_PIXEL_SIZE, vec2(0, .47), vec2(1));
+	grass.rgb += (vec3(0.03, 0.07, 0.11) - ((UV.y - .8) * 0.15)); // color correction
+	COLOR.rgb = mix(COLOR.rgb, grass.rgb, grass.a);
 }
 ```
 

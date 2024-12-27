@@ -49,6 +49,7 @@ func update() -> Array: # returns error messages (strings)
 	image_sprite.texture = ImageTexture.create_from_image(Filesystem.result)
 	if fit_image:
 		camera.fit_image()
+	camera.update_vd_zoomlevel()
 	image_viewport_display.show()
 	# done
 	return errors

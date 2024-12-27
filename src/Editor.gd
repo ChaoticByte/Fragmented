@@ -9,8 +9,9 @@ extends Control
 @onready var status_indicator = %StatusIndicator
 @onready var error_msg_dialog = %ErrorMessageDialog
 
-@onready var compositor = get_tree().root.get_node("Main/%Compositor")
-@onready var camera = get_tree().root.get_node("Main/%Camera")
+@onready var main = get_tree().root.get_node("Main")
+@onready var compositor = main.get_node("%Compositor")
+@onready var camera = main.get_node("%Camera")
 
 #
 
@@ -212,6 +213,7 @@ func update_status(status: Status, msg: String = ""):
 #
 
 func _on_new_shader_button_pressed():
+	main.update_title()
 	Filesystem.reset()
 	self.update_code_edit()
 	compositor.update()
@@ -255,6 +257,7 @@ func _on_save_image_button_pressed():
 
 func _on_open_shader_dialog_file_selected(path: String):
 	Filesystem.load_shader(path)
+	main.update_title(path.split("/")[-1])
 	self.update_code_edit()
 	self._on_apply_shader_button_pressed()
 

@@ -76,7 +76,7 @@ const gdshader_builtin_functions = [
 	"radians", "degrees",
 	"sin", "cos", "tan", "asin", "acos", "atan", "sinh", "cosh", "tanh",
 	"asinh", "acosh", "atanh",
-	"pow", "exp", "log", "exp2", "log2", "sqrt", "inversesqrt",
+	"pow", "exp", "exp2", "log", "log2", "sqrt", "inversesqrt",
 	"abs", "sign", "floor", "trunc", "round", "roundEven", "ceil", "fract",
 	"mod", "modf", "min", "max", "clamp",
 	"mix", "step", "smoothstep",
@@ -112,18 +112,14 @@ const gdshader_builtins = [
 	"UV",
 	"COLOR",
 	"POINT_SIZE",
-	"MODEL_MATRIX", "CANVAS_MATRIX", "SCREEN_MATRIX",
-	"INSTANCE_CUSTOM", "INSTANCE_ID",
-	"VERTEX_ID",
 	"AT_LIGHT_PASS",
 	"TEXTURE_PIXEL_SIZE",
-	"CUSTOM0", "CUSTOM1",
 	"SHADOW_VERTEX", "LIGHT_VERTEX",
 	"FRAGCOORD",
 	"NORMAL", "NORMAL_MAP", "NORMAL_MAP_DEPTH",
-	"TEXTURE", "NORMAL_TEXTURE",
-	"SCREEN_UV", "SCREEN_PIXEL_SIZE",
+	"TEXTURE",
 	"POINT_COORD",
+	"SPECULAR_SHININESS"
 ]
 #
 # configure Highlighter

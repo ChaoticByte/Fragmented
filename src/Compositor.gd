@@ -4,7 +4,34 @@ extends SubViewport
 @onready var image_sprite = %ImageSprite
 @onready var image_viewport_display = %ImageViewportDisplay
 
+var _fragment_function_regex: RegEx
+
+func _init():
+	_fragment_function_regex = RegEx.new()
+	_fragment_function_regex.compile(r'\s*void\s+fragment\s*\(\s*\)\s*{\s*')
+
+func validate_shader_compilation() -> bool:
+	# Inject code to validate shader compilation
+	var shader: Shader = Filesystem.shader.duplicate()
+	var shader_code = shader.code;
+	# -> get position of fragment shader
+	var fragment_function_match = _fragment_function_regex.search(shader.code)
+	if fragment_function_match == null:
+		return false
+	# -> inject uniform
+	var uniform_name = "shader_compilation_validate_" + str(randi_range(999999999, 100000000))
+	var uniform_code_line = "\nuniform bool " + uniform_name + ";\n"
+	shader_code = shader_code.insert(fragment_function_match.get_start(), uniform_code_line)
+	# -> inject variable access to prevent that the uniform gets optimized away
+	shader_code = shader_code.insert(fragment_function_match.get_end() + len(uniform_code_line), "\n" + uniform_name + ";\n")
+	# apply shader code
+	shader.code = shader_code
+	# test if uniform list is empty -> if it is empty, the shader compilation failed
+	return len(shader.get_shader_uniform_list()) > 0
+
 func update() -> Array: # returns error messages (strings)
+	if not validate_shader_compilation():
+		return ["Shader compilation failed!"]
 	var errors = []
 	var fit_image = false
 	# load texture(s)

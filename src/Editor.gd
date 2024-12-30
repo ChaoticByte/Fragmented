@@ -279,6 +279,7 @@ func _on_open_shader_dialog_file_selected(path: String):
 
 func _on_save_shader_dialog_file_selected(path):
 	Filesystem.save_shader(path)
+	main.update_title(path.split("/")[-1])
 
 func _on_save_image_dialog_file_selected(path):
 	Filesystem.save_result(path)

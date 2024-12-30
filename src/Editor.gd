@@ -124,11 +124,13 @@ const gdshader_builtins = [
 # shaderlib
 var shaderlib_regex = {
 	"hsv": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/hsv\.gdshaderinc\"'),
-	"transform": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/transform\.gdshaderinc\"')
+	"transform": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/transform\.gdshaderinc\"'),
+	"transparency": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/transparency\.gdshaderinc\"')
 }
 const shaderlib_functions = {
 	"hsv": ["rgb2hsv", "hsv2rgb", "hsv_offset", "hsv_multiply"],
-	"transform": ["place_texture"]
+	"transform": ["place_texture"],
+	"transparency": ["alpha_blend"],
 }
 #
 # configure Highlighter
@@ -182,11 +184,12 @@ func _on_code_edit_code_completion_requested():
 		code_editor.add_code_completion_option(CodeEdit.KIND_FUNCTION, k, k+"(", Color.INDIAN_RED)
 	# shaderlib #
 	var shader_code = code_editor.text
-	for key in shaderlib_functions:
+	for key in shaderlib_regex:
 		if shaderlib_regex[key].search(shader_code) != null:
-			for k in shaderlib_functions[key]:
-				code_editor.code_completion_prefixes.append(k)
-				code_editor.add_code_completion_option(CodeEdit.KIND_FUNCTION, k, k+"(", Color.INDIAN_RED)
+			if key in shaderlib_functions:
+				for k in shaderlib_functions[key]:
+					code_editor.code_completion_prefixes.append(k)
+					code_editor.add_code_completion_option(CodeEdit.KIND_FUNCTION, k, k+"(", Color.INDIAN_RED)
 	# # # # # # #
 	code_editor.update_code_completion_options(true)
 #

@@ -27,21 +27,28 @@ The image file will be read and available as the `TEXTURE` variable.
 #### Load additional images
 
 ```glsl
-//!load <name> <filepath>
+//!load+ <name> <filepath>
+
 uniform sampler2D <name>;
 ```
 
-Have a look at the `mix.gdshader` example:
+Have a look at the `place_texture.gdshader` example.
+
+## Shaderlib
+
+This repo comes with a (still small) shader library including pre-written functions and more.  
+Have a look at the `shaderlib` folder.
+
+Here is an example:
 
 ```glsl
 shader_type canvas_item;
 
+#include "res://shaderlib/hsv.gdshaderinc"
+
 //!load ./swamp.jpg
 
-//!load+ img2 ./overlay.jpg
-uniform sampler2D img2: repeat_enable, filter_nearest;
-
 void fragment() {
-	COLOR = mix(COLOR, texture(img2, UV), .2);
+	COLOR = hsv_offset(COLOR, 0.32, 0.2, 0.0);
 }
 ```

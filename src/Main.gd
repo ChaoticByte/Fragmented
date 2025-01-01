@@ -1,22 +1,21 @@
-extends Node2D
+extends Node
 
-@onready var image_viewport = %ImageViewport
-@onready var ui_control_filesave = %SaveImageDialog
-
+@onready var editor_window = %EditorWindow
+@onready var app_name = ProjectSettings.get_setting("application/config/name")
 
 func _ready():
-	DisplayServer.window_set_min_size(Vector2i(900, 500))
-	Globals.target_viewport = image_viewport
+	update_title()
+	# position windows
+	get_window().position = Vector2i(
+		editor_window.position.x + editor_window.size.x + 50,
+		editor_window.position.y)
+	get_window().min_size = Vector2i(400, 400)
+	editor_window.min_size = Vector2i(560, 400)
 
-func _on_save_image_button_pressed():
-	if image_viewport.get_result() != null:
-		ui_control_filesave.current_path = Globals.last_image_savepath
-		ui_control_filesave.show()
-
-func _on_save_image_dialog_file_selected(path):
-	print("Export ", path)
-	var err = image_viewport.get_result().save_png(path)
-	if err != OK:
-		print("An error occured!")
+func update_title(current_file: String = ""):
+	if current_file == "":
+		get_window().title = app_name + " - Viewer"
+		editor_window.title = app_name + " - Editor"
 	else:
-		Globals.last_image_savepath = path
+		get_window().title = current_file + " - " + app_name + " - Viewer"
+		editor_window.title = current_file + " - " + app_name + " - Editor"

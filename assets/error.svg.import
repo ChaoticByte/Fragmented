@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://8101nnc8cx4o"
-path="res://.godot/imported/overlay.jpg-b6d13e0def59877969c9eda02fa4244e.ctex"
+uid="uid://04iv1gogpuhu"
+path="res://.godot/imported/error.svg-75fe5f417585e01e99de8885f1f45c3b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://examples/overlay.jpg"
-dest_files=["res://.godot/imported/overlay.jpg-b6d13e0def59877969c9eda02fa4244e.ctex"]
+source_file="res://assets/error.svg"
+dest_files=["res://.godot/imported/error.svg-75fe5f417585e01e99de8885f1f45c3b.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=2.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

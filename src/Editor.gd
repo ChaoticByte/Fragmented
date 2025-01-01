@@ -1,8 +1,22 @@
 extends Control
 
 @onready var code_editor = %CodeEdit
+
 @onready var open_shader_dialog = %OpenShaderDialog
 @onready var save_shader_dialog = %SaveShaderDialog
+@onready var ui_control_filesave = %SaveImageDialog
+
+@onready var status_indicator = %StatusIndicator
+@onready var error_msg_dialog = %ErrorMessageDialog
+
+@onready var main = get_tree().root.get_node("Main")
+@onready var compositor = main.get_node("%Compositor")
+@onready var camera = main.get_node("%Camera")
+
+#
+
+var status_okay_texture: CompressedTexture2D = preload("uid://m1omb6g45vst")
+var status_error_texture: CompressedTexture2D = preload("uid://04iv1gogpuhu")
 
 # # # # # # # # # # #
 # GDShader keywords #
@@ -62,7 +76,7 @@ const gdshader_builtin_functions = [
 	"radians", "degrees",
 	"sin", "cos", "tan", "asin", "acos", "atan", "sinh", "cosh", "tanh",
 	"asinh", "acosh", "atanh",
-	"pow", "exp", "log", "exp2", "log2", "sqrt", "inversesqrt",
+	"pow", "exp", "exp2", "log", "log2", "sqrt", "inversesqrt",
 	"abs", "sign", "floor", "trunc", "round", "roundEven", "ceil", "fract",
 	"mod", "modf", "min", "max", "clamp",
 	"mix", "step", "smoothstep",
@@ -98,19 +112,26 @@ const gdshader_builtins = [
 	"UV",
 	"COLOR",
 	"POINT_SIZE",
-	"MODEL_MATRIX", "CANVAS_MATRIX", "SCREEN_MATRIX",
-	"INSTANCE_CUSTOM", "INSTANCE_ID",
-	"VERTEX_ID",
 	"AT_LIGHT_PASS",
 	"TEXTURE_PIXEL_SIZE",
-	"CUSTOM0", "CUSTOM1",
 	"SHADOW_VERTEX", "LIGHT_VERTEX",
 	"FRAGCOORD",
 	"NORMAL", "NORMAL_MAP", "NORMAL_MAP_DEPTH",
-	"TEXTURE", "NORMAL_TEXTURE",
-	"SCREEN_UV", "SCREEN_PIXEL_SIZE",
+	"TEXTURE",
 	"POINT_COORD",
+	"SPECULAR_SHININESS"
 ]
+# shaderlib
+var shaderlib_regex = {
+	"hsv": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/hsv\.gdshaderinc\"'),
+	"transform": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/transform\.gdshaderinc\"'),
+	"transparency": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/transparency\.gdshaderinc\"')
+}
+const shaderlib_functions = {
+	"hsv": ["rgb2hsv", "hsv2rgb", "hsv_offset", "hsv_multiply"],
+	"transform": ["place_texture"],
+	"transparency": ["alpha_blend"],
+}
 #
 # configure Highlighter
 #
@@ -161,23 +182,23 @@ func _on_code_edit_code_completion_requested():
 	for k in gdshader_builtin_functions + gdshader_sub_functions:
 		code_editor.code_completion_prefixes.append(k)
 		code_editor.add_code_completion_option(CodeEdit.KIND_FUNCTION, k, k+"(", Color.INDIAN_RED)
+	# shaderlib #
+	var shader_code = code_editor.text
+	for key in shaderlib_regex:
+		if shaderlib_regex[key].search(shader_code) != null:
+			if key in shaderlib_functions:
+				for k in shaderlib_functions[key]:
+					code_editor.code_completion_prefixes.append(k)
+					code_editor.add_code_completion_option(CodeEdit.KIND_FUNCTION, k, k+"(", Color.INDIAN_RED)
+	# # # # # # #
 	code_editor.update_code_completion_options(true)
 #
 # # # # # # # # # # # #
 
-func _camera_freeze():
-	Globals.camera_freeze = true
-
-func _camera_unfreeze():
-	Globals.camera_freeze = false
-
 func _ready():
 	code_editor.code_completion_enabled = true
 	code_editor.syntax_highlighter = ShaderSyntaxHighlighter.new()
-	for c in get_children():
-		c.connect("mouse_entered", _camera_freeze)
-		c.connect("mouse_exited", _camera_unfreeze)
-	update()
+	self.update_code_edit()
 
 func _input(event):
 	if event.is_action_pressed("apply_shader"):
@@ -186,43 +207,84 @@ func _input(event):
 		accept_event() # Event is now handled.
 		_on_save_shader_button_pressed()
 
-func update():
-	code_editor.text = Globals.shader.code
+func update_code_edit():
+	code_editor.text = Filesystem.shader.code
+
+enum Status {OKAY, ERROR, UNKNOWN = -1}
+
+func update_status(status: Status, msg: String = ""):
+	error_msg_dialog.dialog_text = msg
+	error_msg_dialog.reset_size()
+	if status == Status.OKAY:
+		status_indicator.texture_normal = status_okay_texture
+	elif status == Status.ERROR:
+		status_indicator.texture_normal = status_error_texture
+	else:
+		status_indicator.texture_normal = null
+	if msg == "":
+		status_indicator.disabled = true
+	else:
+		status_indicator.disabled = false
+
+#
+
+func _on_new_shader_button_pressed():
+	main.update_title()
+	Filesystem.reset()
+	self.update_code_edit()
+	compositor.update()
+	update_status(Status.UNKNOWN)
 
 func _on_open_shader_button_pressed():
 	open_shader_dialog.show()
 
 func _on_save_shader_button_pressed():
-	if Globals.last_shader_savepath == "":
-		save_shader_dialog.current_file = "shader.gdshader"
+	Filesystem.shader.code = code_editor.text
+	if Filesystem.last_shader_savepath == "":
+		_on_save_shader_as_button_pressed()
 	else:
-		save_shader_dialog.current_path = Globals.last_shader_savepath
+		_on_save_shader_dialog_file_selected(Filesystem.last_shader_savepath)
+
+func _on_save_shader_as_button_pressed() -> void:
+	Filesystem.shader.code = code_editor.text
+	if Filesystem.last_shader_savepath == "":
+		save_shader_dialog.current_file = "filter.gdshader"
+	else:
+		save_shader_dialog.current_path = Filesystem.last_shader_savepath
 	save_shader_dialog.show()
 
-func _on_open_shader_dialog_file_selected(path: String):
-	print("Load ", path)
-	var file = FileAccess.open(path, FileAccess.READ)
-	var shader_code = file.get_as_text()
-	var shader = Shader.new()
-	shader.code = shader_code
-	Globals.shader = shader
-	if "/" in path: # update current working directory
-		Globals.cwd = path.substr(0, path.rfind("/"))
-	Globals.target_viewport.update()
-	update()
-	Globals.last_shader_savepath = path
-
-func _on_save_shader_dialog_file_selected(path):
-	print("Save ", path)
-	var file = FileAccess.open(path, FileAccess.WRITE)
-	var content = code_editor.text
-	file.store_string(content)
-	if "/" in path: # update current working directory
-		Globals.cwd = path.substr(0, path.rfind("/"))
-	Globals.last_shader_savepath = path
+func _on_fit_image_button_pressed():
+	camera.fit_image()
 
 func _on_apply_shader_button_pressed():
-	var shader = Shader.new()
-	shader.code = code_editor.text
-	Globals.shader = shader
-	Globals.target_viewport.update()
+	Filesystem.shader.code = code_editor.text
+	var errors = await compositor.update()
+	if len(errors) > 0:
+		update_status(Status.ERROR, "\n".join(errors))
+	else:
+		update_status(Status.OKAY)
+
+func _on_save_image_button_pressed():
+	if Filesystem.result != null:
+		ui_control_filesave.current_path = Filesystem.last_image_savepath
+		ui_control_filesave.show()
+
+#
+
+func _on_open_shader_dialog_file_selected(path: String):
+	Filesystem.load_shader(path)
+	main.update_title(path.split("/")[-1])
+	self.update_code_edit()
+	self._on_apply_shader_button_pressed()
+
+func _on_save_shader_dialog_file_selected(path):
+	Filesystem.save_shader(path)
+	main.update_title(path.split("/")[-1])
+
+func _on_save_image_dialog_file_selected(path):
+	Filesystem.save_result(path)
+
+#
+
+func _on_status_indicator_pressed() -> void:
+	error_msg_dialog.show()

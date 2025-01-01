@@ -1,0 +1,202 @@
+[gd_scene load_steps=3 format=3 uid="uid://btgits2mfup0h"]
+
+[ext_resource type="Script" path="res://src/UIAppVersion.gd" id="1_5qvnb"]
+[ext_resource type="Script" path="res://src/Editor.gd" id="2_haub5"]
+
+[node name="UserInterfaceContainer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AppName" type="Label" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 208.0
+offset_bottom = 48.0
+theme_override_font_sizes/font_size = 20
+text = "Fragmented"
+vertical_alignment = 2
+
+[node name="AppVersion" type="Label" parent="."]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 17.0
+offset_right = 208.0
+offset_bottom = 47.0
+theme_override_font_sizes/font_size = 14
+text = "v0
+"
+vertical_alignment = 2
+script = ExtResource("1_5qvnb")
+
+[node name="Editor" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 64.0
+offset_right = -24.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_haub5")
+
+[node name="OpenShaderDialog" type="FileDialog" parent="Editor"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+title = "Load Shader"
+size = Vector2i(521, 175)
+ok_button_text = "Open"
+mode_overrides_title = false
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.gdshader")
+use_native_dialog = true
+
+[node name="SaveShaderDialog" type="FileDialog" parent="Editor"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+title = "Save Shader"
+size = Vector2i(661, 175)
+ok_button_text = "Save"
+mode_overrides_title = false
+access = 2
+filters = PackedStringArray("*.gdshader")
+use_native_dialog = true
+
+[node name="SaveImageDialog" type="FileDialog" parent="Editor"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+title = "Export Image"
+size = Vector2i(661, 175)
+ok_button_text = "Save"
+mode_overrides_title = false
+access = 2
+filters = PackedStringArray("*.png")
+use_native_dialog = true
+
+[node name="CodeEdit" type="CodeEdit" parent="Editor"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 14
+placeholder_text = "// Test"
+wrap_mode = 1
+minimap_draw = true
+minimap_width = 40
+caret_blink = true
+draw_control_chars = true
+draw_tabs = true
+draw_spaces = true
+line_length_guidelines = Array[int]([80])
+gutters_draw_line_numbers = true
+code_completion_enabled = true
+indent_automatic = true
+auto_brace_completion_enabled = true
+auto_brace_completion_highlight_matching = true
+
+[node name="NewShaderButton" type="Button" parent="Editor"]
+layout_mode = 1
+offset_right = 48.0
+offset_bottom = 32.0
+text = "New"
+
+[node name="OpenShaderButton" type="Button" parent="Editor"]
+layout_mode = 1
+offset_left = 56.0
+offset_right = 112.0
+offset_bottom = 32.0
+text = "Open"
+
+[node name="SaveShaderButton" type="Button" parent="Editor"]
+layout_mode = 1
+offset_left = 120.0
+offset_top = -1.0
+offset_right = 176.0
+offset_bottom = 31.0
+text = "Save"
+
+[node name="SaveShaderAsButton" type="Button" parent="Editor"]
+layout_mode = 1
+offset_left = 184.0
+offset_right = 263.0
+offset_bottom = 32.0
+text = "Save As"
+
+[node name="SaveImageButton" type="Button" parent="Editor"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -72.0
+offset_bottom = 32.0
+grow_horizontal = 0
+text = "Export"
+
+[node name="FitImageButton" type="Button" parent="Editor"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -128.0
+offset_right = -80.0
+offset_bottom = 32.0
+grow_horizontal = 0
+text = "Fit"
+
+[node name="ApplyShaderButton" type="Button" parent="Editor"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -232.0
+offset_right = -136.0
+offset_bottom = 31.0
+grow_horizontal = 0
+text = "Apply (F5)"
+
+[node name="StatusIndicator" type="TextureButton" parent="Editor"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -76.0
+offset_top = 56.0
+offset_right = -56.0
+offset_bottom = 76.0
+grow_horizontal = 0
+disabled = true
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ErrorMessageDialog" type="AcceptDialog" parent="Editor"]
+unique_name_in_owner = true
+title = "Status"
+initial_position = 2
+size = Vector2i(256, 128)
+popup_window = true
+ok_button_text = "Close"
+
+[connection signal="file_selected" from="Editor/OpenShaderDialog" to="Editor" method="_on_open_shader_dialog_file_selected"]
+[connection signal="file_selected" from="Editor/SaveShaderDialog" to="Editor" method="_on_save_shader_dialog_file_selected"]
+[connection signal="file_selected" from="Editor/SaveImageDialog" to="Editor" method="_on_save_image_dialog_file_selected"]
+[connection signal="code_completion_requested" from="Editor/CodeEdit" to="Editor" method="_on_code_edit_code_completion_requested"]
+[connection signal="pressed" from="Editor/NewShaderButton" to="Editor" method="_on_new_shader_button_pressed"]
+[connection signal="pressed" from="Editor/OpenShaderButton" to="Editor" method="_on_open_shader_button_pressed"]
+[connection signal="pressed" from="Editor/SaveShaderButton" to="Editor" method="_on_save_shader_button_pressed"]
+[connection signal="pressed" from="Editor/SaveShaderAsButton" to="Editor" method="_on_save_shader_as_button_pressed"]
+[connection signal="pressed" from="Editor/SaveImageButton" to="Editor" method="_on_save_image_button_pressed"]
+[connection signal="pressed" from="Editor/FitImageButton" to="Editor" method="_on_fit_image_button_pressed"]
+[connection signal="pressed" from="Editor/ApplyShaderButton" to="Editor" method="_on_apply_shader_button_pressed"]
+[connection signal="pressed" from="Editor/StatusIndicator" to="Editor" method="_on_status_indicator_pressed"]

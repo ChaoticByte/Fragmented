@@ -28,34 +28,18 @@ The image file will be read and available as the `TEXTURE` variable.
 
 ```glsl
 //!load+ <name> <filepath>
+
 uniform sampler2D <name>;
 ```
 
-Have a look at the `place_texture.gdshader` example:
-
-```glsl
-shader_type canvas_item;
-
-#include "res://shaderlib/transform.gdshaderinc"
-
-//!load ./swamp.jpg
-//!load+ img2 ./grass.png
-
-uniform sampler2D img2: repeat_disable, filter_nearest;
-
-void fragment() {
-	vec4 grass = place_texture(img2, UV, TEXTURE_PIXEL_SIZE, vec2(0, .47), vec2(1));
-	grass.rgb += (vec3(0.03, 0.07, 0.11) - ((UV.y - .8) * 0.15)); // color correction
-	COLOR.rgb = mix(COLOR.rgb, grass.rgb, grass.a);
-}
-```
+Have a look at the `place_texture.gdshader` example.
 
 ## Shaderlib
 
-This repo comes with a (still small) shader library including pre-written functions and more.
+This repo comes with a (still small) shader library including pre-written functions and more.  
 Have a look at the `shaderlib` folder.
 
-Here is an example on how to use it (the `hsv.gdshader` example):
+Here is an example:
 
 ```glsl
 shader_type canvas_item;

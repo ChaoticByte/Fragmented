@@ -1,5 +1,7 @@
 
-// rgb2hsv and hsv2rgb functions adapted from https://godotshaders.com/shader/hsv-adjustment/
+// rgb2hsv and hsv2rgb functions adapted
+// from https://godotshaders.com/shader/hsv-adjustment/
+// original code by https://godotshaders.com/author/al1-ce/
 
 // Convert RGB to HSV (hue, saturation, brightness)
 vec4 rgb2hsv(vec4 c) {

@@ -34,7 +34,7 @@ func inject_step_uniform(shader_code: String) -> Shader:
 func update() -> Array: # returns error messages (strings)
 	# inject STEP uniform & get number of steps
 	var shader: Shader = inject_step_uniform(Filesystem.shader_code)
-	var step: int = ShaderDirectiveParser.parse_steps_directive(shader.code)
+	var steps: int = ShaderDirectiveParser.parse_steps_directive(shader.code)
 	# validate shader
 	if not validate_shader_compilation(shader):
 		return ["Shader compilation failed!"]
@@ -74,7 +74,7 @@ func update() -> Array: # returns error messages (strings)
 			key, # uniform param name
 			Filesystem.additional_images[key])
 	# iterate n times
-	for i in range(step):
+	for i in range(steps):
 		# set STEP param
 		mat.set_shader_parameter("STEP", i)
 		# assign material

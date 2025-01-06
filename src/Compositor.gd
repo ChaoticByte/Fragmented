@@ -34,13 +34,13 @@ func inject_step_uniform(shader_code: String) -> Shader:
 func update() -> Array: # returns error messages (strings)
 	# inject STEP uniform & get number of steps
 	var shader: Shader = inject_step_uniform(Filesystem.shader_code)
-	var step: int = ShaderDirectiveParser.parse_steps_directive(shader)
+	var step: int = ShaderDirectiveParser.parse_steps_directive(shader.code)
 	# validate shader
 	if not validate_shader_compilation(shader):
 		return ["Shader compilation failed!"]
 	var errors = []
 	# load texture(s) from //!load directive -> TEXTURE
-	var m = ShaderDirectiveParser.parse_load_directive(shader)
+	var m = ShaderDirectiveParser.parse_load_directive(shader.code)
 	if len(m) < 1:
 		errors.append("Didn't find a load directive!")
 		return errors
@@ -55,7 +55,7 @@ func update() -> Array: # returns error messages (strings)
 		return errors
 	# ... from //!load+ directives
 	Filesystem.clear_additional_images()
-	for n in ShaderDirectiveParser.parse_load_additional_directive(shader):
+	for n in ShaderDirectiveParser.parse_load_additional_directive(shader.code):
 		err = Filesystem.load_additional_image(n[1], Filesystem.get_absolute_path(n[2]))
 		if err != "":
 			errors.append(err)

@@ -208,7 +208,7 @@ func _input(event):
 		_on_save_shader_button_pressed()
 
 func update_code_edit():
-	code_editor.text = Filesystem.shader.code
+	code_editor.text = Filesystem.shader_code
 
 enum Status {OKAY, ERROR, UNKNOWN = -1}
 
@@ -239,14 +239,14 @@ func _on_open_shader_button_pressed():
 	open_shader_dialog.show()
 
 func _on_save_shader_button_pressed():
-	Filesystem.shader.code = code_editor.text
+	Filesystem.shader_code = code_editor.text
 	if Filesystem.last_shader_savepath == "":
 		_on_save_shader_as_button_pressed()
 	else:
 		_on_save_shader_dialog_file_selected(Filesystem.last_shader_savepath)
 
 func _on_save_shader_as_button_pressed() -> void:
-	Filesystem.shader.code = code_editor.text
+	Filesystem.shader_code = code_editor.text
 	if Filesystem.last_shader_savepath == "":
 		save_shader_dialog.current_file = "filter.gdshader"
 	else:
@@ -257,7 +257,7 @@ func _on_fit_image_button_pressed():
 	camera.fit_image()
 
 func _on_apply_shader_button_pressed():
-	Filesystem.shader.code = code_editor.text
+	Filesystem.shader_code = code_editor.text
 	var errors = await compositor.update()
 	if len(errors) > 0:
 		update_status(Status.ERROR, "\n".join(errors))

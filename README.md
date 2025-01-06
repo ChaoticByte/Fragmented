@@ -22,7 +22,7 @@ Just load an image using `//!load`, edit the shader code and hit `F5` to see the
 //!load <filepath>
 ```
 
-The image file will be read and available as the `TEXTURE` variable.
+The main image file will be read and available as the sampler2D `TEXTURE`.
 
 #### Load additional images
 
@@ -33,6 +33,28 @@ uniform sampler2D <name>;
 ```
 
 Have a look at the `place_texture.gdshader` example.
+
+### Have multiple steps with `//!steps n`
+
+You can apply your shaderfile multiple times. At every additional step, `TEXTURE` is the result of the previous step. This can be used to chain effects that cannot be easily chained otherwise.
+
+To query the current step index, a `STEP` uniform is automatically injected. If `steps` is set to `0`, your shader won't be applied at all.
+
+Example:
+
+```glsl
+//!load ...
+//!steps 5
+
+void fragment() {
+  if (STEP == 0) {
+    ...
+  } else if (STEP == 1) {
+    ...
+  }
+  // ... and so on
+}
+```
 
 ## Shaderlib
 

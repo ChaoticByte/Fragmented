@@ -1,13 +1,20 @@
 shader_type canvas_item;
 
+//!steps 9
 //!load ./swamp.jpg
 
-const float strength = 0.1;
+const float strength = 0.01;
 
 void fragment() {
+	float v;
+	if (STEP % 3 == 0) {
+		v = COLOR.r; // 3 times
+	} else if (STEP % 3 == 0) {
+		v = COLOR.g; // 3 times
+	} else {
+		v = COLOR.b; // 3 times
+	}
 	vec2 uv = UV;
-	float b = (COLOR.r + COLOR.g + COLOR.b) / 3.0;
-	uv.x = mix(uv.x, b, strength);
-	uv.y = mix(uv.y, b, strength);
+	uv.y -= v * strength;
 	COLOR = texture(TEXTURE, uv);
 }

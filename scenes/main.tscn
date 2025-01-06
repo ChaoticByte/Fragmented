@@ -42,7 +42,7 @@ script = ExtResource("8_mls06")
 [node name="EditorWindow" type="Window" parent="."]
 unique_name_in_owner = true
 disable_3d = true
-position = Vector2i(48, 80)
+position = Vector2i(48, 36)
 size = Vector2i(704, 704)
 script = ExtResource("6_8k0ha")
 

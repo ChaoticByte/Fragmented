@@ -1,7 +1,7 @@
 extends Node
 
 @onready var template_shader: Shader = load("res://src/shader/template.gdshader")
-@onready var shader: Shader = template_shader.duplicate()
+@onready var shader_code: String = template_shader.code
 
 var original_image: ImageTexture
 var additional_images: Dictionary
@@ -13,7 +13,7 @@ var last_shader_savepath = ""
 var last_original_image_path = ""
 
 func reset():
-	self.shader = self.template_shader.duplicate()
+	self.shader_code = self.template_shader.code
 	self.last_image_savepath = ""
 	self.last_shader_savepath = ""
 	self.last_original_image_path = ""
@@ -61,9 +61,7 @@ func save_result(path: String):
 func load_shader(path: String):
 	print("Load ", path)
 	var file = FileAccess.open(path, FileAccess.READ)
-	var shader_code = file.get_as_text()
-	self.shader = Shader.new()
-	shader.code = shader_code
+	self.shader_code = file.get_as_text()
 	if "/" in path: # update current working directory
 		self.cwd = path.substr(0, path.rfind("/"))
 	self.last_shader_savepath = path
@@ -71,7 +69,7 @@ func load_shader(path: String):
 func save_shader(path: String):
 	print("Save ", path)
 	var file = FileAccess.open(path, FileAccess.WRITE)
-	file.store_string(self.shader.code)
+	file.store_string(self.shader_code)
 	if "/" in path: # update current working directory
 		self.cwd = path.substr(0, path.rfind("/"))
 	self.last_shader_savepath = path

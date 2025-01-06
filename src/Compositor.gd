@@ -84,8 +84,8 @@ func update() -> Array: # returns error messages (strings)
 		Filesystem.result = get_texture().get_image()
 		image_sprite.material = null
 		image_sprite.texture = ImageTexture.create_from_image(Filesystem.result)
-		if fit_image:
-			camera.fit_image()
+	if fit_image:
+		camera.fit_image()
 	camera.update_vd_zoomlevel()
 	image_viewport_display.show()
 	# done

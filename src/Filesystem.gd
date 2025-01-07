@@ -65,11 +65,25 @@ func load_shader(path: String):
 	if "/" in path: # update current working directory
 		self.cwd = path.substr(0, path.rfind("/"))
 	self.last_shader_savepath = path
+	store_last_opened_file()
 
 func save_shader(path: String):
 	print("Save ", path)
 	var file = FileAccess.open(path, FileAccess.WRITE)
 	file.store_string(self.shader_code)
+	file.flush()
 	if "/" in path: # update current working directory
 		self.cwd = path.substr(0, path.rfind("/"))
 	self.last_shader_savepath = path
+	store_last_opened_file()
+
+func store_last_opened_file():
+	var f = FileAccess.open("user://last_opened", FileAccess.WRITE)
+	if f != null:
+		f.store_pascal_string(last_shader_savepath)
+		f.flush()
+
+func remember_last_opened_file():
+	var f = FileAccess.open("user://last_opened", FileAccess.READ)
+	if f != null:
+		last_shader_savepath = f.get_pascal_string()

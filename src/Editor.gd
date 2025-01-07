@@ -6,6 +6,8 @@ extends Control
 @onready var save_shader_dialog = %SaveShaderDialog
 @onready var ui_control_filesave = %SaveImageDialog
 
+@onready var save_image_button = %SaveImageButton
+
 @onready var status_indicator = %StatusIndicator
 @onready var error_msg_dialog = %ErrorMessageDialog
 
@@ -257,12 +259,14 @@ func _on_fit_image_button_pressed():
 	camera.fit_image()
 
 func _on_apply_shader_button_pressed():
+	save_image_button.disabled = true
 	Filesystem.shader_code = code_editor.text
 	var errors = await compositor.update()
 	if len(errors) > 0:
 		update_status(Status.ERROR, "\n".join(errors))
 	else:
 		update_status(Status.OKAY)
+		save_image_button.disabled = false
 
 func _on_save_image_button_pressed():
 	if Filesystem.result != null:

@@ -73,17 +73,17 @@ func update() -> Array: # returns error messages (strings)
 		mat.set_shader_parameter(
 			key, # uniform param name
 			Filesystem.additional_images[key])
+	# assign material
+	image_sprite.material = mat
 	# iterate n times
 	for i in range(steps):
 		# set STEP param
 		mat.set_shader_parameter("STEP", i)
-		# assign material
-		image_sprite.material = mat
 		# Get viewport texture
-		await RenderingServer.frame_post_draw # for good measure
+		await RenderingServer.frame_post_draw # wait for next frame to get drawn
 		Filesystem.result = get_texture().get_image()
-		image_sprite.material = null
 		image_sprite.texture = ImageTexture.create_from_image(Filesystem.result)
+	image_sprite.material = null
 	if fit_image:
 		camera.fit_image()
 	camera.update_vd_zoomlevel()

@@ -123,6 +123,10 @@ const gdshader_builtins = [
 	"POINT_COORD",
 	"SPECULAR_SHININESS"
 ]
+const gdshader_preprocessor = [
+	"define", "undef", "include", "pragma",
+	"if", "elif", "ifdef", "ifndef", "else", "endif"
+]
 # shaderlib
 var shaderlib_regex = {
 	"hsv": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/hsv\.gdshaderinc\"'),
@@ -184,6 +188,9 @@ func _on_code_edit_code_completion_requested():
 	for k in gdshader_builtin_functions + gdshader_sub_functions:
 		code_editor.code_completion_prefixes.append(k)
 		code_editor.add_code_completion_option(CodeEdit.KIND_FUNCTION, k, k+"(", Color.INDIAN_RED)
+	for k in gdshader_preprocessor:
+		code_editor.code_completion_prefixes.append(k)
+		code_editor.add_code_completion_option(CodeEdit.KIND_PLAIN_TEXT, "#" + k, k)
 	# shaderlib #
 	var shader_code = code_editor.text
 	for key in shaderlib_regex:

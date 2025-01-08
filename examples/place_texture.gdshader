@@ -3,8 +3,8 @@ shader_type canvas_item;
 #include "res://shaderlib/transform.gdshaderinc"
 #include "res://shaderlib/transparency.gdshaderinc"
 
-//!load ./swamp.jpg
-//!load+ img2 ./grass.png
+//!load ./images/swamp.jpg
+//!load+ img2 ./images/grass.png
 
 uniform sampler2D img2: repeat_disable, filter_nearest;
 

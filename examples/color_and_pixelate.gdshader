@@ -3,7 +3,7 @@ shader_type canvas_item;
 #include "res://shaderlib/hsv.gdshaderinc"
 #include "res://shaderlib/effects.gdshaderinc"
 
-//!load ./swamp.jpg
+//!load ./images/swamp.jpg
 
 void fragment() {
 	COLOR = pixelate(TEXTURE, UV, 200.0);

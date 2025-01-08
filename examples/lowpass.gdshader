@@ -1,6 +1,6 @@
 shader_type canvas_item;
 
-//!load ./swamp.jpg
+//!load ./images/swamp.jpg
 
 // Settings
 const float threshold = 0.6;

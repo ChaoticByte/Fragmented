@@ -68,7 +68,7 @@ shader_type canvas_item;
 
 #include "res://shaderlib/hsv.gdshaderinc"
 
-//!load ./swamp.jpg
+//!load ./examples/images/swamp.jpg
 
 void fragment() {
 	COLOR = hsv_offset(COLOR, 0.32, 0.2, 0.0);

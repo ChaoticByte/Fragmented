@@ -61,11 +61,12 @@ func save_result(path: String):
 func load_shader(path: String):
 	print("Load ", path)
 	var file = FileAccess.open(path, FileAccess.READ)
-	self.shader_code = file.get_as_text()
-	if "/" in path: # update current working directory
-		self.cwd = path.substr(0, path.rfind("/"))
-	self.last_shader_savepath = path
-	store_last_opened_file()
+	if file != null:
+		self.shader_code = file.get_as_text()
+		if "/" in path: # update current working directory
+			self.cwd = path.substr(0, path.rfind("/"))
+		self.last_shader_savepath = path
+		store_last_opened_file()
 
 func save_shader(path: String):
 	print("Save ", path)

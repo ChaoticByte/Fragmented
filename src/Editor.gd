@@ -131,12 +131,14 @@ const gdshader_preprocessor = [
 var shaderlib_regex = {
 	"hsv": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/hsv\.gdshaderinc\"'),
 	"transform": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/transform\.gdshaderinc\"'),
-	"transparency": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/transparency\.gdshaderinc\"')
+	"transparency": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/transparency\.gdshaderinc\"'),
+	"effects": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/effects\.gdshaderinc\"')
 }
 const shaderlib_functions = {
 	"hsv": ["rgb2hsv", "hsv2rgb", "hsv_offset", "hsv_multiply"],
 	"transform": ["place_texture"],
 	"transparency": ["alpha_blend"],
+	"effects": ["pixelate"]
 }
 #
 # configure Highlighter

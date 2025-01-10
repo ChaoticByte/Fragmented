@@ -1,7 +1,7 @@
 shader_type canvas_item;
 
 //!steps 9
-//!load ./swamp.jpg
+//!load ./images/swamp.jpg
 
 const float strength = 0.01;
 

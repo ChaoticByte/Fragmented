@@ -1,6 +1,6 @@
 shader_type canvas_item;
 
-//!load ./swamp.jpg
+//!load ./images/swamp.jpg
 
 void fragment() {
 	float b = (COLOR.r + COLOR.g + COLOR.b) / 3.0;

@@ -6,6 +6,8 @@ extends Control
 @onready var save_shader_dialog = %SaveShaderDialog
 @onready var ui_control_filesave = %SaveImageDialog
 
+@onready var save_image_button = %SaveImageButton
+
 @onready var status_indicator = %StatusIndicator
 @onready var error_msg_dialog = %ErrorMessageDialog
 
@@ -121,16 +123,24 @@ const gdshader_builtins = [
 	"POINT_COORD",
 	"SPECULAR_SHININESS"
 ]
+const gdshader_preprocessor = [
+	"define", "undef", "include", "pragma",
+	"if", "elif", "ifdef", "ifndef", "else", "endif"
+]
 # shaderlib
 var shaderlib_regex = {
 	"hsv": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/hsv\.gdshaderinc\"'),
 	"transform": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/transform\.gdshaderinc\"'),
-	"transparency": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/transparency\.gdshaderinc\"')
+	"transparency": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/transparency\.gdshaderinc\"'),
+	"effects": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/effects\.gdshaderinc\"'),
+	"denoise": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/denoise\.gdshaderinc\"')
 }
 const shaderlib_functions = {
 	"hsv": ["rgb2hsv", "hsv2rgb", "hsv_offset", "hsv_multiply"],
 	"transform": ["place_texture"],
 	"transparency": ["alpha_blend"],
+	"effects": ["pixelate"],
+	"denoise": ["smart_denoise"]
 }
 #
 # configure Highlighter
@@ -182,6 +192,9 @@ func _on_code_edit_code_completion_requested():
 	for k in gdshader_builtin_functions + gdshader_sub_functions:
 		code_editor.code_completion_prefixes.append(k)
 		code_editor.add_code_completion_option(CodeEdit.KIND_FUNCTION, k, k+"(", Color.INDIAN_RED)
+	for k in gdshader_preprocessor:
+		code_editor.code_completion_prefixes.append(k)
+		code_editor.add_code_completion_option(CodeEdit.KIND_PLAIN_TEXT, "#" + k, k)
 	# shaderlib #
 	var shader_code = code_editor.text
 	for key in shaderlib_regex:
@@ -257,12 +270,14 @@ func _on_fit_image_button_pressed():
 	camera.fit_image()
 
 func _on_apply_shader_button_pressed():
+	save_image_button.disabled = true
 	Filesystem.shader_code = code_editor.text
 	var errors = await compositor.update()
 	if len(errors) > 0:
 		update_status(Status.ERROR, "\n".join(errors))
 	else:
 		update_status(Status.OKAY)
+		save_image_button.disabled = false
 
 func _on_save_image_button_pressed():
 	if Filesystem.result != null:

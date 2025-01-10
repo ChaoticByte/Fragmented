@@ -129,14 +129,14 @@ const gdshader_preprocessor = [
 ]
 # shaderlib
 var shaderlib_regex = {
-	"hsv": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/hsv\.gdshaderinc\"'),
+	"colorspaces": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/colorspaces\.gdshaderinc\"'),
 	"transform": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/transform\.gdshaderinc\"'),
 	"transparency": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/transparency\.gdshaderinc\"'),
 	"effects": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/effects\.gdshaderinc\"'),
 	"denoise": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/denoise\.gdshaderinc\"')
 }
 const shaderlib_functions = {
-	"hsv": ["rgb2hsv", "hsv2rgb", "hsv_offset", "hsv_multiply"],
+	"colorspaces": ["rgb2hsv", "hsv2rgb"],
 	"transform": ["place_texture"],
 	"transparency": ["alpha_blend"],
 	"effects": ["pixelate"],

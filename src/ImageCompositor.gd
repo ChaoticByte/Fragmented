@@ -1,8 +1,21 @@
-extends SubViewport
+class_name ImageCompositor extends SubViewport
+
+var image_sprite: Sprite2D
+
+func _init() -> void:
+	# Overwrite some variables
+	self.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	self.disable_3d = true
+	self.transparent_bg = true
+	self.canvas_item_default_texture_filter = Viewport.DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_NEAREST
+	self.image_sprite = Sprite2D.new()
 
 @onready var camera = %Camera
-@onready var image_sprite = %ImageSprite
 @onready var image_viewport_display = %ImageViewportDisplay
+
+func _ready() -> void:
+	# Add image sprite as child to be rendered
+	self.add_child(image_sprite)
 
 var _fragment_function_regex: RegEx = RegEx.create_from_string(r'\s*void\s+fragment\s*\(\s*\)\s*{\s*')
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://bjah7k4bxo044"]
 
 [ext_resource type="Script" path="res://src/Main.gd" id="1_2625y"]
-[ext_resource type="Script" path="res://src/Compositor.gd" id="2_hvo65"]
+[ext_resource type="Script" path="res://src/ImageCompositor.gd" id="2_4thch"]
 [ext_resource type="Shader" path="res://src/shader/ivd_outline.gdshader" id="3_6xihe"]
 [ext_resource type="Script" path="res://src/ImageViewportDisplay.gd" id="3_n4itb"]
 [ext_resource type="Script" path="res://src/UIWindow.gd" id="6_8k0ha"]
@@ -20,14 +20,7 @@ script = ExtResource("1_2625y")
 
 [node name="Compositor" type="SubViewport" parent="."]
 unique_name_in_owner = true
-disable_3d = true
-transparent_bg = true
-canvas_item_default_texture_filter = 0
-render_target_update_mode = 4
-script = ExtResource("2_hvo65")
-
-[node name="ImageSprite" type="Sprite2D" parent="Compositor"]
-unique_name_in_owner = true
+script = ExtResource("2_4thch")
 
 [node name="ImageViewportDisplay" type="Sprite2D" parent="."]
 unique_name_in_owner = true

@@ -137,7 +137,7 @@ var shaderlib_regex = {
 	"blur": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/blur\.gdshaderinc\"'),
 }
 const shaderlib_functions = {
-	"colorspaces": ["rgb2hsv", "hsv2rgb"],
+	"colorspaces": ["rgb2hsv", "hsv2rgb", "oklab2rgb", "rgb2oklab", "oklab2oklch", "oklch2oklab"],
 	"transform": ["place_texture"],
 	"transparency": ["alpha_blend"],
 	"effects": ["pixelate"],

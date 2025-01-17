@@ -1,7 +1,9 @@
 
-// gaussian_blur adapted from https://godotshaders.com/shader/customizable-gausian-blur/
-// original code by https://godotshaders.com/author/djbob-gaming-yt/
-// maximum radius is 64
+/*
+	gaussian_blur adapted from https://godotshaders.com/shader/customizable-gausian-blur/
+	original code by https://godotshaders.com/author/djbob-gaming-yt/
+	maximum radius is 64
+*/
 vec4 gaussian_blur(sampler2D texture, vec2 uv, int radius, float sigma) {
 	vec2 resolution = 1.0 / vec2(textureSize(texture, 0));
 	// calculate kernel

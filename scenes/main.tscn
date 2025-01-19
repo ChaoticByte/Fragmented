@@ -37,6 +37,7 @@ unique_name_in_owner = true
 disable_3d = true
 position = Vector2i(48, 36)
 size = Vector2i(704, 704)
+visible = false
 script = ExtResource("6_8k0ha")
 
 [node name="UserInterfaceContainer" parent="EditorWindow" instance=ExtResource("7_5ci0e")]

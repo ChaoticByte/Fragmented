@@ -44,7 +44,7 @@ func inject_step_uniform(shader_code: String) -> Shader:
 	shader.code = shader_code.insert(fragment_function_match.get_start(), "\nuniform int STEP;")
 	return shader
 
-func update() -> Array: # returns error messages (strings)
+func update(overwrite_image_path: String = "") -> Array: # returns error messages (strings)
 	# inject STEP uniform & get number of steps
 	var shader: Shader = inject_step_uniform(Filesystem.shader_code)
 	var steps: int = ShaderDirectiveParser.parse_steps_directive(shader.code)
@@ -53,11 +53,15 @@ func update() -> Array: # returns error messages (strings)
 		return ["Shader compilation failed!"]
 	var errors = []
 	# load texture(s) from //!load directive -> TEXTURE
-	var m = ShaderDirectiveParser.parse_load_directive(shader.code)
-	if len(m) < 1:
-		errors.append("Didn't find a load directive!")
-		return errors
-	var original_image_path = Filesystem.get_absolute_path(m[1])
+	var original_image_path = ""
+	if overwrite_image_path == "":
+		var m = ShaderDirectiveParser.parse_load_directive(shader.code)
+		if len(m) < 1:
+			errors.append("Didn't find a load directive!")
+			return errors
+		original_image_path = Filesystem.get_absolute_path(m[1])
+	else:
+		original_image_path = overwrite_image_path
 	var fit_image = false
 	if original_image_path != Filesystem.last_original_image_path:
 		fit_image = true

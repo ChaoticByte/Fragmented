@@ -1,6 +1,8 @@
 
-// Load in a texture from a sampler2D with an offset and scale
-// See examples/place_texture.gdshader
+/*
+	Load in a texture from a sampler2D with an offset and scale
+	See examples/place_texture.gdshader
+*/
 vec4 place_texture(sampler2D sampler, vec2 uv, vec2 texture_pixel_size, vec2 offset, vec2 scale) {
 	vec2 texture_size = vec2(textureSize(sampler, 0));
 	// position of current pixel; sample color c

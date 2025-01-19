@@ -74,3 +74,33 @@ void fragment() {
 	COLOR = hsv_offset(COLOR, 0.32, 0.2, 0.0);
 }
 ```
+
+## Commandline interface
+
+You can run Fragmented from the commandline or scripts.
+
+> Note: Headless mode is not supported. Using the commandline interface still opens a window.
+
+### Usage
+
+```
+./Fragmented cmd --shader PATH [--load-image PATH]
+
+  --shader PATH      The path to the shader
+  --output PATH      Where to write the resulting image to
+  --load-image PATH  The path to the image. This will overwrite the
+                     load directive of the shader file (optional)
+
+```
+
+You can also run `./Fragmented cmd help` to show the help message.
+
+#### Examples
+
+```
+./Fragmented cmd --shader ./examples/oklab.gdshader --output ./output.png
+```
+
+```
+./Fragmented cmd --shader ./examples/oklab.gdshader --load-image ~/Pictures/test.png --output ./output.png
+```

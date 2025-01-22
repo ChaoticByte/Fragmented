@@ -58,6 +58,8 @@ void fragment() {
 
 ## Shaderlib
 
+> Note: The shaderlib API is still unstable as I am figuring things out. It will be declared stable with version 10.
+
 This repo comes with a (still small) shader library including pre-written functions and more.  
 Have a look at the `shaderlib` folder.
 

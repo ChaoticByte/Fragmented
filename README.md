@@ -5,6 +5,14 @@
 
 <p align=center>Create image filters by writing shaders.</p>
 
+## Table of Contents
+
+- [Supported Platforms](#supported-platforms)
+- [Usage](#usage)
+- [Shaderlib](#shaderlib)
+- [Commandline interface](#commandline-interface)
+- [Known Issues](#known-issues)
+
 ## Supported Platforms
 
 - Linux
@@ -106,3 +114,9 @@ You can also run `./Fragmented cmd help` to show the help message.
 ```
 ./Fragmented cmd --shader ./examples/oklab.gdshader --load-image ~/Pictures/test.png --output ./output.png
 ```
+
+## Known Issues
+
+- screen scaling is unsupported; Using screen scaling could lead to an either blurry UI, or no scaling at all -> see #45
+- the shaderlib API is still unstable, this will change with version 10
+- commandline interface: `--headless` is not supported

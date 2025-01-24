@@ -1,7 +1,7 @@
 shader_type canvas_item;
 
-#include "res://shaderlib/colorspaces.gdshaderinc"
-#include "res://shaderlib/effects.gdshaderinc"
+#include "res://shaderlib/hsv.gdshaderinc"
+#include "res://shaderlib/pixelate.gdshaderinc"
 
 //!load ./images/swamp.jpg
 

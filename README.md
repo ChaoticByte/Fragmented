@@ -80,12 +80,15 @@ Here is an example:
 ```glsl
 shader_type canvas_item;
 
-#include "res://shaderlib/hsv.gdshaderinc"
+#include "res://shaderlib/oklab.gdshaderinc"
 
-//!load ./examples/images/swamp.jpg
+//!load ./images/swamp.jpg
 
 void fragment() {
-	COLOR = hsv_offset(COLOR, 0.32, 0.2, 0.0);
+	vec4 oklab = rgb2oklab(COLOR);
+	vec4 oklch = oklab2oklch(oklab);
+	oklch.z -= 2.0;
+	COLOR = oklab2rgb(oklch2oklab(oklch));
 }
 ```
 

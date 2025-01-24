@@ -3,7 +3,7 @@
 
 ![screenshot](./screenshot.png)
 
-<p align=center>Create image filters by writing shaders.</p>
+<p align=center>An image editing/compositing software for graphics programmers.</p>
 
 ## Table of Contents
 
@@ -21,8 +21,12 @@ You can find the latest releases [here](https://github.com/ChaoticByte/Fragmente
 
 ## Usage
 
-The repo includes examples. You can use them as a starting-point to write your own filters.  
-Just load an image using `//!load`, edit the shader code and hit `F5` to see the changes.
+With Fragemented, you are editing images by writing GDShaders. This brings almost endless opportunities to create unique art.  
+If you want to learn GDShader, take a look at the [Godot docs](https://docs.godotengine.org/en/stable/tutorials/shaders/).
+
+The repo also includes examples. You can use them as a starting-point to write your own filters.
+
+Besides the regular GDShader stuff, Fragmented also has so-called directives. Those allow to further control the behaviour of the application. The most important directive is `//!load` to load an image.
 
 ### Load TEXTURE using the `//!load` directive
 

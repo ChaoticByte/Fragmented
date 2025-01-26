@@ -104,13 +104,22 @@ You can run Fragmented from the commandline or scripts.
 ./Fragmented cmd --shader PATH [--load-image PATH]
 
   --shader PATH      The path to the shader
-  --output PATH      Where to write the resulting image to
+  --output PATH      Where to write the resulting image to.
+                     In batch mode, this must be a folder.
   --load-image PATH  The path to the image. This will overwrite the
-                     load directive of the shader file (optional)
+                     load directive of the shader file.
+                     Passing a folder activates batch mode.
+                     (optional)
 
 ```
 
 You can also run `./Fragmented cmd help` to show the help message.
+
+### Batch Mode
+
+Since version v8.0, you can pass a directory to `--load-image` and `--output`. This will process all images in the input directory and write the output to the output directory.
+
+> Note: You *can* use this feature for video frames, but it will take a loooong time.
 
 #### Examples
 

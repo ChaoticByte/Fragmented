@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Fragmented"
-config/version="v8.0"
+config/version="v8.1"
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
 run/low_processor_mode=true

@@ -128,21 +128,15 @@ const gdshader_preprocessor = [
 	"if", "elif", "ifdef", "ifndef", "else", "endif"
 ]
 # shaderlib
-var shaderlib_regex = {
-	"colorspaces": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/colorspaces\.gdshaderinc\"'),
-	"transform": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/transform\.gdshaderinc\"'),
-	"transparency": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/transparency\.gdshaderinc\"'),
-	"effects": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/effects\.gdshaderinc\"'),
-	"denoise": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/denoise\.gdshaderinc\"'),
-	"blur": RegEx.create_from_string(r'\s*\#include\s+\"res\:\/\/shaderlib\/blur\.gdshaderinc\"'),
-}
+var shaderlib_regex = {} # auto-generated
 const shaderlib_functions = {
-	"colorspaces": ["rgb2hsv", "hsv2rgb", "oklab2rgb", "rgb2oklab", "oklab2oklch", "oklch2oklab"],
-	"transform": ["place_texture"],
-	"transparency": ["alpha_blend"],
-	"effects": ["pixelate"],
-	"denoise": ["smart_denoise"],
 	"blur": ["gaussian_blur"],
+	"common": ["alpha_blend", "cbrt"],
+	"denoise": ["smart_denoise"],
+	"hsv": ["rgb2hsv", "hsv2rgb",],
+	"oklab": ["oklab2rgb", "rgb2oklab", "oklab2oklch", "oklch2oklab"],
+	"pixelate": ["pixelate"],
+	"place_texture": ["place_texture"],
 }
 #
 # configure Highlighter
@@ -211,6 +205,11 @@ func _on_code_edit_code_completion_requested():
 # # # # # # # # # # # #
 
 func _ready():
+	# generate regexes
+	for k in shaderlib_functions:
+		shaderlib_regex[k] = RegEx.create_from_string(
+			r'\s*\#include\s+\"res\:\/\/shaderlib\/' + k + r'\.gdshaderinc\"')
+	#
 	code_editor.code_completion_enabled = true
 	code_editor.syntax_highlighter = ShaderSyntaxHighlighter.new()
 	self.update_code_edit()

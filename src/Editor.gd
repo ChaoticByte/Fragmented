@@ -134,6 +134,7 @@ const shaderlib_functions = {
 	"common": ["alpha_blend", "cbrt"],
 	"denoise": ["smart_denoise"],
 	"hsv": ["rgb2hsv", "hsv2rgb",],
+	"kuwahara": ["kuwahara",],
 	"oklab": ["oklab2rgb", "rgb2oklab", "oklab2oklch", "oklch2oklab"],
 	"pixelate": ["pixelate"],
 	"place_texture": ["place_texture"],

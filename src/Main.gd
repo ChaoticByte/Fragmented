@@ -8,6 +8,15 @@ const BATCH_MODE_SUPPORTED_EXTS = [
 @onready var ui_container = %UserInterfaceContainer
 @onready var app_name = ProjectSettings.get_setting("application/config/name")
 
+func _ready():
+	var args = OS.get_cmdline_args()
+	if len(args) > 0 and args[0] in ["apply", "help", "dump-shaderlib"]:
+		# use the commandline interface
+		cli(args)
+		return
+	else:
+		prepare_gui()
+
 func show_help():
 	print(
 		"Usage:\n\n",
@@ -25,7 +34,16 @@ func show_help():
 		"                       Passing a folder activates batch mode.\n",
 		"                       (optional)\n")
 
-func parse_custom_cmdline(args: PackedStringArray):
+func cli_handle_errors(errors: Array) -> int:
+	# returns number of errors
+	var n_errors = errors.size()
+	if n_errors > 0:
+		print("One or more errors occurred.")
+		for e in errors:
+			printerr(e)
+	return n_errors
+
+func parse_cmdline_apply(args: PackedStringArray):
 	var kwargs: Dictionary = {"--shader": null, "--output": null, "--load-image": null}
 	var args_len = args.size()
 	var i = 0
@@ -37,15 +55,6 @@ func parse_custom_cmdline(args: PackedStringArray):
 		i += 1
 	return kwargs
 
-func cli_handle_errors(errors: Array) -> int:
-	# returns number of errors
-	var n_errors = errors.size()
-	if n_errors > 0:
-		print("One or more errors occurred.")
-		for e in errors:
-			printerr(e)
-	return n_errors
-
 func cli(args: PackedStringArray):
 	print(
 		"~ Fragmented CLI ~\n",
@@ -54,7 +63,15 @@ func cli(args: PackedStringArray):
 		show_help()
 		get_tree().quit(1)
 		return
-	var kwargs: Dictionary = parse_custom_cmdline(args)
+	if args[0] == "apply":
+		cli_apply_shader(args)
+		return
+	elif args[0] == "dump-shaderlib":
+		cli_dump_shaderlib()
+		return
+
+func cli_apply_shader(args: PackedStringArray):
+	var kwargs: Dictionary = parse_cmdline_apply(args)
 	if kwargs["--shader"] == null or kwargs["--output"] == null:
 		show_help()
 		get_tree().quit(1)
@@ -107,6 +124,17 @@ func cli(args: PackedStringArray):
 		else:
 			get_tree().quit(1)
 
+func cli_dump_shaderlib():
+	var shaderlib_dump_name = "fragmented_shaderlib_dump_" + str(int(Time.get_unix_time_from_system()))
+	var shaderlib_dir = DirAccess.open("res://shaderlib/")
+	var current_dir = DirAccess.open("./")
+	current_dir.make_dir(shaderlib_dump_name)
+	current_dir.change_dir(shaderlib_dump_name)
+	for f in shaderlib_dir.get_files():
+		print("Dumping " + f + " into " + current_dir.get_current_dir())
+		shaderlib_dir.copy("res://shaderlib/" + f, current_dir.get_current_dir() + "/" + f)
+	get_tree().quit(0)
+
 func prepare_gui():
 	update_title()
 	# position windows
@@ -120,14 +148,6 @@ func prepare_gui():
 	Filesystem.remember_last_opened_file()
 	if Filesystem.last_shader_savepath != "":
 		ui_container.get_node("Editor")._on_open_shader_dialog_file_selected(Filesystem.last_shader_savepath)
-
-func _ready():
-	var args = OS.get_cmdline_args()
-	if len(args) > 0 and args[0] in ["apply", "help"]:
-		# use the commandline interface
-		cli(args)
-	else:
-		prepare_gui()
 
 func update_title(current_file: String = ""):
 	if current_file == "":

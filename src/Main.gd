@@ -32,7 +32,9 @@ func show_help():
 		"    --load-image PATH  The path to the image. This will overwrite the\n",
 		"                       load directive of the shader file.\n",
 		"                       Passing a folder activates batch mode.\n",
-		"                       (optional)\n")
+		"                       (optional)\n",
+		" dump-shaderlib\n\n",
+		"  | Dumps the shaderlib into the current directory.\n")
 
 func cli_handle_errors(errors: Array) -> int:
 	# returns number of errors

@@ -101,19 +101,36 @@ You can run Fragmented from the commandline or scripts.
 ### Usage
 
 ```
-./Fragmented cmd --shader PATH [--load-image PATH]
+~ Fragmented CLI ~
+-================-
 
-  --shader PATH      The path to the shader
-  --output PATH      Where to write the resulting image to.
-                     In batch mode, this must be a folder.
-  --load-image PATH  The path to the image. This will overwrite the
-                     load directive of the shader file.
-                     Passing a folder activates batch mode.
-                     (optional)
+Usage:
+
+./Fragmented <command> <args...>
+
+Commands:
+
+ help
+
+  | Shows this help text.
+
+ apply --shader PATH [--load-image PATH]
+
+  | Applies a shader file.
+
+    --shader PATH      The path to the shader
+    --output PATH      Where to write the resulting image to.
+                       In batch mode, this must be a folder.
+    --load-image PATH  The path to the image. This will overwrite the
+                       load directive of the shader file.
+                       Passing a folder activates batch mode.
+                       (optional)
+ dump-shaderlib
+
+  | Dumps the shaderlib into the current directory.
+
 
 ```
-
-You can also run `./Fragmented cmd help` to show the help message.
 
 ### Batch Mode
 
@@ -124,11 +141,11 @@ Since version v8.0, you can pass a directory to `--load-image` and `--output`. T
 #### Examples
 
 ```
-./Fragmented cmd --shader ./examples/oklab.gdshader --output ./output.png
+./Fragmented apply --shader ./examples/oklab.gdshader --output ./output.png
 ```
 
 ```
-./Fragmented cmd --shader ./examples/oklab.gdshader --load-image ~/Pictures/test.png --output ./output.png
+./Fragmented apply --shader ./examples/oklab.gdshader --load-image ~/Pictures/test.png --output ./output.png
 ```
 
 ## Known Issues

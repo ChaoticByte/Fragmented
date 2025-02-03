@@ -11,11 +11,11 @@ config_version=5
 [application]
 
 config/name="Fragmented"
-config/version="v8.2"
-run/main_scene="res://scenes/main.tscn"
+config/version="v9.0"
+run/main_scene="res://src/scenes/main.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
 run/low_processor_mode=true
-config/icon="res://assets/icon.png"
+config/icon="res://src/assets/icon.png"
 
 [autoload]
 
@@ -24,8 +24,8 @@ ShaderDirectiveParser="*res://src/ShaderDirectiveParser.gd"
 
 [display]
 
-window/size/viewport_width=704
-window/size/viewport_height=704
+window/size/viewport_width=640
+window/size/viewport_height=672
 window/energy_saving/keep_screen_on=false
 window/subwindows/embed_subwindows=false
 window/vsync/vsync_mode=0

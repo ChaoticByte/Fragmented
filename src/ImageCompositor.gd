@@ -45,8 +45,11 @@ func inject_step_uniform(shader_code: String) -> Shader:
 	return shader
 
 func update(overwrite_image_path: String = "") -> Array: # returns error messages (strings)
+	var original_shader_code = Filesystem.shader_code # read from disk
+	if original_shader_code == "":
+		return ["No shader loaded!"]
 	# inject STEP uniform & get number of steps
-	var shader: Shader = inject_step_uniform(Filesystem.shader_code)
+	var shader: Shader = inject_step_uniform(original_shader_code)
 	var steps: int = ShaderDirectiveParser.parse_steps_directive(shader.code)
 	# validate shader
 	if not validate_shader_compilation(shader):

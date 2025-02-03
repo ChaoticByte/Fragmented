@@ -21,12 +21,16 @@ You can find the latest releases [here](https://github.com/ChaoticByte/Fragmente
 
 ## Usage
 
-With Fragemented, you are editing images by writing GDShaders. This brings almost endless opportunities to create unique art.  
+With Fragemented, you are processing images with GDShaders. This brings almost endless opportunities to create unique art.  
 If you want to learn GDShader, take a look at the [Godot docs](https://docs.godotengine.org/en/stable/tutorials/shaders/).
 
-The repo also includes examples. You can use them as a starting-point to write your own filters.
+**The builtin editor got removed** from Fragmented with version **v9.0**. I advise you to write your shaders directly in the Godot Editor.
 
-Besides the regular GDShader stuff, Fragmented also has so-called directives. Those allow to further control the behaviour of the application. The most important directive is `//!load` to load an image.
+**To get started, use the project template (see the Releases section of this repo) and open it in Godot.**
+
+The template includes many examples. You can use them as a starting-point to write your own stuff.
+
+Besides the regular GDShader stuff, Fragmented has so-called directives. Those allow to further control the behaviour of the application. **The most important directive is `//!load` to load an image.**
 
 ### Load TEXTURE using the `//!load` directive
 
@@ -128,7 +132,6 @@ Commands:
  dump-shaderlib
 
   | Dumps the shaderlib into the current directory.
-
 
 ```
 

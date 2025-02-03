@@ -3,7 +3,7 @@
 set -e
 
 function log {
-    echo -e "\033[1;36m* $@\033[0m"
+    echo -e "\033[1;36m***** $@ *****\033[0m"
 }
 
 log

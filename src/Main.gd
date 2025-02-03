@@ -90,7 +90,7 @@ func cli_apply_shader(args: PackedStringArray):
 			else:
 				batch_mode = true
 	#
-	Filesystem.load_shader(kwargs["--shader"])
+	Filesystem.shader_path = kwargs["--shader"]
 	#
 	if batch_mode:
 		var in_dir_path = load_image_dir.get_current_dir()

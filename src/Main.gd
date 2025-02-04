@@ -21,9 +21,7 @@ func show_help():
 		"    --load-image PATH  The path to the image. This will overwrite the\n",
 		"                       load directive of the shader file.\n",
 		"                       Passing a folder activates batch mode.\n",
-		"                       (optional)\n",
-		" dump-shaderlib\n\n",
-		"  | Dumps the shaderlib into the current directory.\n")
+		"                       (optional)\n")
 
 func parse_custom_cmdline(args: PackedStringArray):
 	var kwargs: Dictionary = {"--shader": null, "--output": null, "--load-image": null}

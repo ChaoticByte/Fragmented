@@ -129,9 +129,6 @@ Commands:
                        load directive of the shader file.
                        Passing a folder activates batch mode.
                        (optional)
- dump-shaderlib
-
-  | Dumps the shaderlib into the current directory.
 
 ```
 

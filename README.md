@@ -62,6 +62,8 @@ Example:
 //!load ...
 //!steps 5
 
+uniform int STEP; // this is mandatory!
+
 void fragment() {
   if (STEP == 0) {
 	...

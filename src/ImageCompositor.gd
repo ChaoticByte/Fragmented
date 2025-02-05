@@ -37,20 +37,21 @@ func validate_shader_compilation(shader: Shader) -> bool:
 	# test if uniform list is empty -> if it is empty, the shader compilation failed
 	return len(shader.get_shader_uniform_list()) > 0
 
-func inject_step_uniform(shader_code: String) -> Shader:
-	var shader = Shader.new()
-	# this should run after validate_shader_compilation()
-	var fragment_function_match = _fragment_function_regex.search(shader_code)
-	shader.code = shader_code.insert(fragment_function_match.get_start(), "\nuniform int STEP;")
-	return shader
+func shader_has_step_uniform(shader: Shader) -> bool:
+	for u in shader.get_shader_uniform_list():
+		if u["name"] == "STEP" && u["type"] == 2:
+			return true
+	return false
 
 func update(overwrite_image_path: String = "") -> Array: # returns error messages (strings)
 	var original_shader_code = Filesystem.shader_code # read from disk
 	if original_shader_code == "":
 		return ["No shader loaded!"]
-	# inject STEP uniform & get number of steps
-	var shader: Shader = inject_step_uniform(original_shader_code)
+	var shader: Shader = Shader.new()
+	shader.code = original_shader_code
+	# get number of steps & check if code has STEP uniform
 	var steps: int = ShaderDirectiveParser.parse_steps_directive(shader.code)
+	var has_step_uniform: bool = shader_has_step_uniform(shader)
 	# validate shader
 	if not validate_shader_compilation(shader):
 		return ["Shader compilation failed!"]
@@ -97,8 +98,9 @@ func update(overwrite_image_path: String = "") -> Array: # returns error message
 	image_sprite.material = mat
 	# iterate n times
 	for i in range(steps):
-		# set STEP param
-		mat.set_shader_parameter("STEP", i)
+		if has_step_uniform:
+			# set STEP param
+			mat.set_shader_parameter("STEP", i)
 		# Get viewport texture
 		await RenderingServer.frame_post_draw # wait for next frame to get drawn
 		Filesystem.result = get_texture().get_image()

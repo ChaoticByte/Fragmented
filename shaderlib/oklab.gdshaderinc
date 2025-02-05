@@ -9,7 +9,7 @@
 	The fourth value is always alpha.
 */
 
-#include "res://shaderlib/common.gdshaderinc"
+#include "./common.gdshaderinc"
 
 vec4 rgb2oklab(vec4 c) {
 	float l = 0.4122214708f * c.r + 0.5363325363f * c.g + 0.0514459929f * c.b;

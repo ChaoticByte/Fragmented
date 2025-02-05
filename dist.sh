@@ -4,6 +4,8 @@ function log {
     echo -e "\033[1;36m***** $@ *****\033[0m"
 }
 
+mkdir -p dist
+
 log Building application
 
 VERSION="$(godot --headless --no-header -s tools/get_version.gd)"

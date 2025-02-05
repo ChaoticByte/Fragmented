@@ -16,7 +16,6 @@ mono_crash.*.json
 *.x86_64
 godot.*.template_release.*
 dist/*
-!dist/.gitkeep
 
 screenshot.png.import
 

@@ -86,7 +86,7 @@ Here is an example:
 ```glsl
 shader_type canvas_item;
 
-#include "res://shaderlib/oklab.gdshaderinc"
+#include "./shaderlib/oklab.gdshaderinc"
 
 //!load ./images/swamp.jpg
 

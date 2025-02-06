@@ -1,0 +1,174 @@
+[gd_scene load_steps=12 format=3 uid="uid://bjah7k4bxo044"]
+
+[ext_resource type="Script" uid="uid://n6vumf2emghl" path="res://src/Main.gd" id="1_64y3g"]
+[ext_resource type="Script" path="res://src/ImageCompositor.gd" id="2_4ykh7"]
+[ext_resource type="Shader" uid="uid://on6oju7dt0dj" path="res://src/shader/ivd_outline.gdshader" id="3_0fllm"]
+[ext_resource type="Script" uid="uid://c51lc0hv2d7uq" path="res://src/ImageViewportDisplay.gd" id="4_pbpx2"]
+[ext_resource type="Script" uid="uid://t71vu44i5cr5" path="res://src/Camera.gd" id="5_hkdq6"]
+[ext_resource type="Theme" uid="uid://cwqlns34rj3vx" path="res://src/theme.tres" id="6_rjp5f"]
+[ext_resource type="Script" uid="uid://e5gf0r42elmx" path="res://src/MainUI.gd" id="7_5puhk"]
+[ext_resource type="Script" uid="uid://b254xv4j2uexg" path="res://src/VersionLabel.gd" id="8_kod8x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y2ea0"]
+shader = ExtResource("3_0fllm")
+shader_parameter/zoom_level = Vector2(1, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_lct1c"]
+viewport_path = NodePath("Compositor")
+
+[sub_resource type="LabelSettings" id="LabelSettings_6o860"]
+font_size = 12
+font_color = Color(1, 1, 1, 0.509804)
+shadow_color = Color(0, 0, 0, 1)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_64y3g")
+
+[node name="Compositor" type="SubViewport" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_4ykh7")
+
+[node name="ImageViewportDisplay" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_y2ea0")
+texture = SubResource("ViewportTexture_lct1c")
+script = ExtResource("4_pbpx2")
+
+[node name="Camera" type="Camera2D" parent="."]
+unique_name_in_owner = true
+offset = Vector2(0, -64)
+script = ExtResource("5_hkdq6")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MainUI" type="Control" parent="CanvasLayer"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(320, 320)
+theme = ExtResource("6_rjp5f")
+script = ExtResource("7_5puhk")
+
+[node name="OpenShaderDialog" type="FileDialog" parent="CanvasLayer/MainUI"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+title = "Load Shader"
+size = Vector2i(521, 175)
+ok_button_text = "Open"
+mode_overrides_title = false
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.gdshader")
+use_native_dialog = true
+
+[node name="SaveImageDialog" type="FileDialog" parent="CanvasLayer/MainUI"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+title = "Export Image"
+size = Vector2i(661, 175)
+ok_button_text = "Save"
+mode_overrides_title = false
+access = 2
+filters = PackedStringArray("*.png")
+use_native_dialog = true
+
+[node name="ErrorMessageDialog" type="AcceptDialog" parent="CanvasLayer/MainUI"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+title = "Status"
+initial_position = 2
+size = Vector2i(256, 128)
+popup_window = true
+ok_button_text = "Close"
+
+[node name="OpenShaderButton" type="Button" parent="CanvasLayer/MainUI"]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 128.0
+offset_bottom = 48.0
+text = "Open Shader"
+
+[node name="SaveImageButton" type="Button" parent="CanvasLayer/MainUI"]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 144.0
+offset_top = 16.0
+offset_right = 216.0
+offset_bottom = 48.0
+disabled = true
+text = "Export"
+
+[node name="FitImageButton" type="Button" parent="CanvasLayer/MainUI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -176.0
+offset_top = 16.0
+offset_right = -128.0
+offset_bottom = 48.0
+grow_horizontal = 0
+text = "Fit"
+
+[node name="ApplyShaderButton" type="Button" parent="CanvasLayer/MainUI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -112.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 48.0
+grow_horizontal = 0
+text = "Apply (F5)"
+
+[node name="StatusIndicator" type="TextureButton" parent="CanvasLayer/MainUI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -220.0
+offset_top = 21.0
+offset_right = -196.0
+offset_bottom = 45.0
+grow_horizontal = 0
+disabled = true
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="VersionLabel" type="Label" parent="CanvasLayer/MainUI"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -24.0
+offset_right = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+label_settings = SubResource("LabelSettings_6o860")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("8_kod8x")
+
+[connection signal="canceled" from="CanvasLayer/MainUI/OpenShaderDialog" to="CanvasLayer/MainUI" method="_on_open_shader_dialog_canceled"]
+[connection signal="confirmed" from="CanvasLayer/MainUI/OpenShaderDialog" to="CanvasLayer/MainUI" method="_on_open_shader_dialog_confirmed"]
+[connection signal="file_selected" from="CanvasLayer/MainUI/OpenShaderDialog" to="CanvasLayer/MainUI" method="_on_open_shader_dialog_file_selected"]
+[connection signal="canceled" from="CanvasLayer/MainUI/SaveImageDialog" to="CanvasLayer/MainUI" method="_on_save_image_dialog_canceled"]
+[connection signal="confirmed" from="CanvasLayer/MainUI/SaveImageDialog" to="CanvasLayer/MainUI" method="_on_save_image_dialog_confirmed"]
+[connection signal="file_selected" from="CanvasLayer/MainUI/SaveImageDialog" to="CanvasLayer/MainUI" method="_on_save_image_dialog_file_selected"]
+[connection signal="pressed" from="CanvasLayer/MainUI/OpenShaderButton" to="CanvasLayer/MainUI" method="_on_open_shader_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainUI/SaveImageButton" to="CanvasLayer/MainUI" method="_on_save_image_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainUI/FitImageButton" to="CanvasLayer/MainUI" method="_on_fit_image_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainUI/ApplyShaderButton" to="CanvasLayer/MainUI" method="_on_apply_shader_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainUI/StatusIndicator" to="CanvasLayer/MainUI" method="_on_status_indicator_pressed"]

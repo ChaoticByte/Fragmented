@@ -3,6 +3,8 @@ shader_type canvas_item;
 //!steps 9
 //!load ./images/swamp.jpg
 
+uniform int STEP;
+
 const float strength = 0.01;
 
 void fragment() {

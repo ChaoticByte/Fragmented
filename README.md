@@ -21,12 +21,16 @@ You can find the latest releases [here](https://github.com/ChaoticByte/Fragmente
 
 ## Usage
 
-With Fragemented, you are editing images by writing GDShaders. This brings almost endless opportunities to create unique art.  
+With Fragemented, you are processing images with GDShaders. This brings almost endless opportunities to create unique art.  
 If you want to learn GDShader, take a look at the [Godot docs](https://docs.godotengine.org/en/stable/tutorials/shaders/).
 
-The repo also includes examples. You can use them as a starting-point to write your own filters.
+**The builtin editor got removed** from Fragmented with version **v9.0**. I advise you to write your shaders directly in the Godot Editor.
 
-Besides the regular GDShader stuff, Fragmented also has so-called directives. Those allow to further control the behaviour of the application. The most important directive is `//!load` to load an image.
+**To get started, use the project template (see the Releases section of this repo) and open it in Godot.**
+
+The template includes many examples. You can use them as a starting-point to write your own stuff.
+
+Besides the regular GDShader stuff, Fragmented has so-called directives. Those allow to further control the behaviour of the application. **The most important directive is `//!load` to load an image.**
 
 ### Load TEXTURE using the `//!load` directive
 
@@ -57,6 +61,8 @@ Example:
 ```glsl
 //!load ...
 //!steps 5
+
+uniform int STEP; // this is mandatory!
 
 void fragment() {
   if (STEP == 0) {
@@ -101,19 +107,32 @@ You can run Fragmented from the commandline or scripts.
 ### Usage
 
 ```
-./Fragmented cmd --shader PATH [--load-image PATH]
+~ Fragmented CLI ~
+-================-
 
-  --shader PATH      The path to the shader
-  --output PATH      Where to write the resulting image to.
-                     In batch mode, this must be a folder.
-  --load-image PATH  The path to the image. This will overwrite the
-                     load directive of the shader file.
-                     Passing a folder activates batch mode.
-                     (optional)
+Usage:
+
+./Fragmented <command> <args...>
+
+Commands:
+
+ help
+
+  | Shows this help text.
+
+ apply --shader PATH [--load-image PATH]
+
+  | Applies a shader file.
+
+    --shader PATH      The path to the shader
+    --output PATH      Where to write the resulting image to.
+                       In batch mode, this must be a folder.
+    --load-image PATH  The path to the image. This will overwrite the
+                       load directive of the shader file.
+                       Passing a folder activates batch mode.
+                       (optional)
 
 ```
-
-You can also run `./Fragmented cmd help` to show the help message.
 
 ### Batch Mode
 
@@ -124,11 +143,11 @@ Since version v8.0, you can pass a directory to `--load-image` and `--output`. T
 #### Examples
 
 ```
-./Fragmented cmd --shader ./examples/oklab.gdshader --output ./output.png
+./Fragmented apply --shader ./examples/oklab.gdshader --output ./output.png
 ```
 
 ```
-./Fragmented cmd --shader ./examples/oklab.gdshader --load-image ~/Pictures/test.png --output ./output.png
+./Fragmented apply --shader ./examples/oklab.gdshader --load-image ~/Pictures/test.png --output ./output.png
 ```
 
 ## Known Issues

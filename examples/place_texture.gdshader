@@ -1,7 +1,7 @@
 shader_type canvas_item;
 
-#include "res://shaderlib/place_texture.gdshaderinc"
-#include "res://shaderlib/common.gdshaderinc"
+#include "./shaderlib/place_texture.gdshaderinc"
+#include "./shaderlib/common.gdshaderinc"
 
 //!load ./images/swamp.jpg
 //!load+ img2 ./images/grass.png

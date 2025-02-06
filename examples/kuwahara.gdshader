@@ -2,8 +2,8 @@ shader_type canvas_item;
 
 //!load ./images/mountain.jpg
 
-#include "res://shaderlib/kuwahara.gdshaderinc"
-#include "res://shaderlib/hsv.gdshaderinc"
+#include "./shaderlib/kuwahara.gdshaderinc"
+#include "./shaderlib/hsv.gdshaderinc"
 
 void fragment() {
 	// Kuwahara

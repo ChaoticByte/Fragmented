@@ -44,11 +44,9 @@ func shader_has_step_uniform(shader: Shader) -> bool:
 	return false
 
 func update(overwrite_image_path: String = "") -> Array: # returns error messages (strings)
-	var original_shader_code = Filesystem.shader_code # read from disk
-	if original_shader_code == "":
-		return ["No shader loaded!"]
-	var shader: Shader = Shader.new()
-	shader.code = original_shader_code
+	var shader = Filesystem.shader # read from disk
+	if shader == null:
+		return ["No shader opened!"]
 	# get number of steps & check if code has STEP uniform
 	var steps: int = ShaderDirectiveParser.parse_steps_directive(shader.code)
 	var has_step_uniform: bool = shader_has_step_uniform(shader)

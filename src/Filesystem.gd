@@ -13,13 +13,10 @@ var shader_path = "":
 		if old != shader_path:
 			store_last_opened_file()
 
-var shader_code: String:
+var shader: Shader:
 	get():
 		print("Load ", shader_path)
-		var file = FileAccess.open(shader_path, FileAccess.READ)
-		if file != null:
-			return file.get_as_text()
-		else: return ""
+		return load(shader_path)
 
 var original_image: ImageTexture
 

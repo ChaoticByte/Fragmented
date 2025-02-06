@@ -6,9 +6,9 @@ function log {
     echo -e "\033[1;36m***** $@ *****\033[0m"
 }
 
-log
+log "                                         "
 log "Fragmented - Godot Build Template Builder"
-log
+log "                                         "
 
 cd $(dirname $0)
 log Switched to $(pwd)

@@ -1,13 +1,13 @@
 [gd_scene load_steps=12 format=3 uid="uid://bjah7k4bxo044"]
 
-[ext_resource type="Script" path="res://src/Main.gd" id="1_64y3g"]
+[ext_resource type="Script" uid="uid://n6vumf2emghl" path="res://src/Main.gd" id="1_64y3g"]
 [ext_resource type="Script" path="res://src/ImageCompositor.gd" id="2_4ykh7"]
-[ext_resource type="Shader" path="res://src/shader/ivd_outline.gdshader" id="3_0fllm"]
-[ext_resource type="Script" path="res://src/ImageViewportDisplay.gd" id="4_pbpx2"]
-[ext_resource type="Script" path="res://src/Camera.gd" id="5_hkdq6"]
+[ext_resource type="Shader" uid="uid://on6oju7dt0dj" path="res://src/shader/ivd_outline.gdshader" id="3_0fllm"]
+[ext_resource type="Script" uid="uid://c51lc0hv2d7uq" path="res://src/ImageViewportDisplay.gd" id="4_pbpx2"]
+[ext_resource type="Script" uid="uid://t71vu44i5cr5" path="res://src/Camera.gd" id="5_hkdq6"]
 [ext_resource type="Theme" uid="uid://cwqlns34rj3vx" path="res://src/theme.tres" id="6_rjp5f"]
-[ext_resource type="Script" path="res://src/MainUI.gd" id="7_5puhk"]
-[ext_resource type="Script" path="res://src/VersionLabel.gd" id="8_kod8x"]
+[ext_resource type="Script" uid="uid://e5gf0r42elmx" path="res://src/MainUI.gd" id="7_5puhk"]
+[ext_resource type="Script" uid="uid://b254xv4j2uexg" path="res://src/VersionLabel.gd" id="8_kod8x"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_y2ea0"]
 shader = ExtResource("3_0fllm")

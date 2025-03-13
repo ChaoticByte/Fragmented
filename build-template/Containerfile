@@ -7,13 +7,12 @@ FROM docker.io/ubuntu:focal AS os-base
 # https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_for_linuxbsd.html
 
 RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq build-essential scons pkg-config libx11-dev libxcursor-dev libxinerama-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev libwayland-dev
-
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq git
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq python3-pip git build-essential pkg-config libx11-dev libxcursor-dev libxinerama-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev libwayland-dev
+RUN pip3 install --system scons
 
 FROM os-base AS clone-src
 
-RUN git clone https://github.com/godotengine/godot.git -b 4.3-stable /godot-src
+RUN git clone https://github.com/godotengine/godot.git -b 4.4-stable /godot-src
 
 FROM clone-src
 

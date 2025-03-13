@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://bjah7k4bxo044"]
+[gd_scene load_steps=13 format=3 uid="uid://bjah7k4bxo044"]
 
 [ext_resource type="Script" uid="uid://5sbslwysin5a" path="res://src/Main.gd" id="1_64y3g"]
 [ext_resource type="Script" uid="uid://d106170kuigl3" path="res://src/ImageCompositor.gd" id="2_4ykh7"]
 [ext_resource type="Shader" uid="uid://ctk7jomfyx0fh" path="res://src/shader/ivd_outline.gdshader" id="3_0fllm"]
 [ext_resource type="Script" uid="uid://ctc4lhbdsoq7u" path="res://src/ImageViewportDisplay.gd" id="4_pbpx2"]
 [ext_resource type="Script" uid="uid://b6r8rigubdctk" path="res://src/Camera.gd" id="5_hkdq6"]
+[ext_resource type="Texture2D" uid="uid://d2nwchyd6huob" path="res://src/assets/bg.png" id="6_kokaf"]
 [ext_resource type="Theme" uid="uid://cwqlns34rj3vx" path="res://src/theme.tres" id="6_rjp5f"]
 [ext_resource type="Script" uid="uid://bxgmf2ny7yuc8" path="res://src/MainUI.gd" id="7_5puhk"]
 [ext_resource type="Script" uid="uid://bh0gpu3i2p47f" path="res://src/VersionLabel.gd" id="8_kod8x"]
@@ -18,7 +19,6 @@ viewport_path = NodePath("Compositor")
 
 [sub_resource type="LabelSettings" id="LabelSettings_6o860"]
 font_size = 12
-font_color = Color(1, 1, 1, 0.509804)
 shadow_color = Color(0, 0, 0, 1)
 
 [node name="Main" type="Node2D"]
@@ -38,6 +38,27 @@ script = ExtResource("4_pbpx2")
 unique_name_in_owner = true
 offset = Vector2(0, -64)
 script = ExtResource("5_hkdq6")
+
+[node name="CanvasLayerBg" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Control" type="Control" parent="CanvasLayerBg"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayerBg/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_kokaf")
+stretch_mode = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

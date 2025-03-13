@@ -106,7 +106,6 @@ func update(overwrite_image_path: String = "") -> Array: # returns error message
 	image_sprite.material = null
 	if fit_image:
 		camera.fit_image()
-	camera.update_vd_zoomlevel()
 	image_viewport_display.show()
 	# done
 	return errors

@@ -16,6 +16,14 @@ func _input(event):
 	if self.drag && event is InputEventMouseMotion:
 		self.global_position -= event.relative / self.zoom
 
+var old_zoom = self.zoom
+
+func _process(delta: float) -> void:
+	if self.zoom != old_zoom:
+		image_viewport_display.update_zoom_texture_filter(self.zoom)
+		image_viewport_display.material.set_shader_parameter("zoom_level", self.zoom)
+		old_zoom = self.zoom
+
 func fit_image():
 	if Filesystem.original_image != null:
 		var image_size = Filesystem.original_image.get_size()
@@ -28,21 +36,15 @@ func fit_image():
 		self.zoom = Vector2(zoomf, zoomf)
 		self.global_position = Vector2(0, 0)
 
-func update_vd_zoomlevel():
-	image_viewport_display.update_zoom_texture_filter(self.zoom)
-	image_viewport_display.material.set_shader_parameter("zoom_level", self.zoom)
-
 func zoom_in():
 	var old_mouse_pos = get_global_mouse_position()
 	self.zoom *= 1.2
 	self.global_position += old_mouse_pos - get_global_mouse_position()
-	update_vd_zoomlevel()
 
 func zoom_out():
 	var old_mouse_pos = get_global_mouse_position()
 	self.zoom *= 1/1.2
 	self.global_position += old_mouse_pos - get_global_mouse_position()
-	update_vd_zoomlevel()
 
 func _on_fit_image_button_pressed():
 	fit_image()

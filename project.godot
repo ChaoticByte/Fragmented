@@ -72,4 +72,4 @@ renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
 textures/lossless_compression/force_png=true
 shader_compiler/shader_cache/enabled=false
-environment/defaults/default_clear_color=Color(0, 0, 0, 1)
+environment/defaults/default_clear_color=Color(0.501961, 0.501961, 0.501961, 1)

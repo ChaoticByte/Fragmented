@@ -11,6 +11,6 @@ void fragment() {
 		UV.x > 1.0-t.x ||
 		UV.y > 1.0-t.y
 	) {
-		COLOR = mix(COLOR, vec4(1.0), 0.5);
+		COLOR = mix(COLOR, vec4(0.5), 0.5);
 	}
 }

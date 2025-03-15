@@ -72,6 +72,7 @@ func _on_open_shader_dialog_confirmed() -> void:
 
 func _on_save_image_dialog_file_selected(path):
 	Filesystem.save_result(path)
+	set_buttons_disabled(false)
 
 func _on_save_image_dialog_canceled() -> void:
 	set_buttons_disabled(false)

@@ -76,8 +76,6 @@ void fragment() {
 
 ## Shaderlib
 
-> Note: The shaderlib API is still unstable as I am figuring things out. It will be declared stable with version 10.
-
 This repo comes with a (still small) shader library including pre-written functions and more.  
 Have a look at the `shaderlib` folder.
 
@@ -153,5 +151,4 @@ Since version v8.0, you can pass a directory to `--load-image` and `--output`. T
 ## Known Issues
 
 - screen scaling is unsupported; Using screen scaling could lead to an either blurry UI, or no scaling at all -> see #45
-- the shaderlib API is still unstable, this will change with version 10
 - commandline interface: `--headless` is not supported

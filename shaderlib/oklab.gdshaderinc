@@ -12,6 +12,8 @@
 #include "./common.gdshaderinc"
 
 vec4 rgb2oklab(vec4 c) {
+	// oklab.x and .y (a and b) should range from -0.5 to 0.5
+
 	float l = 0.4122214708f * c.r + 0.5363325363f * c.g + 0.0514459929f * c.b;
 	float m = 0.2119034982f * c.r + 0.6806995451f * c.g + 0.1073969566f * c.b;
 	float s = 0.0883024619f * c.r + 0.2817188376f * c.g + 0.6299787005f * c.b;
@@ -29,6 +31,8 @@ vec4 rgb2oklab(vec4 c) {
 }
 
 vec4 oklab2rgb(vec4 c) {
+	// oklab.x and .y (a and b) should range from -0.5 to 0.5
+
 	float l_ = c.x + 0.3963377774f * c.y + 0.2158037573f * c.z;
 	float m_ = c.x - 0.1055613458f * c.y - 0.0638541728f * c.z;
 	float s_ = c.x - 0.0894841775f * c.y - 1.2914855480f * c.z;
@@ -46,6 +50,7 @@ vec4 oklab2rgb(vec4 c) {
 }
 
 vec4 oklab2oklch(vec4 c) {
+	// oklch.z (hue) ranges from -3.6 to 3.6
 	return vec4(
 		c.x,
 		sqrt((c.y * c.y) + (c.z * c.z)),
@@ -55,6 +60,7 @@ vec4 oklab2oklch(vec4 c) {
 }
 
 vec4 oklch2oklab(vec4 c) {
+	// oklch.z (hue) ranges from -3.6 to 3.6
 	return vec4(
 		c.x,
 		c.y * cos(c.z),

@@ -84,6 +84,9 @@ func update(overwrite_image_path: String = "") -> Array: # returns error message
 	image_sprite.texture = Filesystem.original_image
 	image_sprite.offset = Filesystem.original_image.get_size() / 2
 	self.size = Filesystem.original_image.get_size()
+	# already show the image viewport & fit the image
+	if fit_image: camera.fit_image()
+	image_viewport_display.show()
 	# create shader material
 	var mat = ShaderMaterial.new()
 	mat.shader = shader
@@ -104,8 +107,5 @@ func update(overwrite_image_path: String = "") -> Array: # returns error message
 		Filesystem.result = get_texture().get_image()
 		image_sprite.texture = ImageTexture.create_from_image(Filesystem.result)
 	image_sprite.material = null
-	if fit_image:
-		camera.fit_image()
-	image_viewport_display.show()
 	# done
 	return errors

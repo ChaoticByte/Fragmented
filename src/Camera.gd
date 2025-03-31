@@ -18,7 +18,7 @@ func _input(event):
 
 var old_zoom = self.zoom
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if self.zoom != old_zoom:
 		image_viewport_display.update_zoom_texture_filter(self.zoom)
 		image_viewport_display.material.set_shader_parameter("zoom_level", self.zoom)

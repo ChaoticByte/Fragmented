@@ -43,6 +43,12 @@ func shader_has_step_uniform(shader: Shader) -> bool:
 			return true
 	return false
 
+func set_vsync(enabled: bool):
+	if enabled:
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+	else:
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+
 func update(overwrite_image_path: String = "") -> Array: # returns error messages (strings)
 	var shader = Filesystem.shader # read from disk
 	if shader == null:
@@ -98,6 +104,7 @@ func update(overwrite_image_path: String = "") -> Array: # returns error message
 	# assign material
 	image_sprite.material = mat
 	# iterate n times
+	set_vsync(false) # speed up processing
 	for i in range(steps):
 		if has_step_uniform:
 			# set STEP param
@@ -106,6 +113,7 @@ func update(overwrite_image_path: String = "") -> Array: # returns error message
 		await RenderingServer.frame_post_draw # wait for next frame to get drawn
 		Filesystem.result = get_texture().get_image()
 		image_sprite.texture = ImageTexture.create_from_image(Filesystem.result)
+	set_vsync(true) # reenable vsync
 	image_sprite.material = null
 	# done
 	return errors

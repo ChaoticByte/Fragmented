@@ -27,7 +27,6 @@ window/size/viewport_width=640
 window/size/viewport_height=672
 window/energy_saving/keep_screen_on=false
 window/subwindows/embed_subwindows=false
-window/vsync/vsync_mode=0
 
 [editor_plugins]
 

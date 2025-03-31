@@ -14,7 +14,6 @@ config/name="Fragmented"
 config/version="v10.0"
 run/main_scene="res://src/scenes/main.tscn"
 config/features=PackedStringArray("4.4", "Mobile")
-run/low_processor_mode=true
 config/icon="res://src/assets/icon.png"
 
 [autoload]

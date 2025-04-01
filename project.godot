@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Fragmented"
-config/version="v10.0"
+config/version="v10.1"
 run/main_scene="res://src/scenes/main.tscn"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://src/assets/icon.png"

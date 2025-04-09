@@ -37,9 +37,9 @@ func validate_shader_compilation(shader: Shader) -> bool:
 	# test if uniform list is empty -> if it is empty, the shader compilation failed
 	return len(shader.get_shader_uniform_list()) > 0
 
-func shader_has_step_uniform(shader: Shader) -> bool:
+func shader_has_uniform(shader: Shader, name: String, type: int) -> bool:
 	for u in shader.get_shader_uniform_list():
-		if u["name"] == "STEP" && u["type"] == 2:
+		if u["name"] == name && u["type"] == type:
 			return true
 	return false
 
@@ -55,7 +55,8 @@ func update(overwrite_image_path: String = "") -> Array: # returns error message
 		return ["No shader opened!"]
 	# get number of steps & check if code has STEP uniform
 	var steps: int = ShaderDirectiveParser.parse_steps_directive(shader.code)
-	var has_step_uniform: bool = shader_has_step_uniform(shader)
+	var has_step_uniform: bool = shader_has_uniform(shader, "STEP", 2)
+	var has_steps_uniform: bool = shader_has_uniform(shader, "STEPS", 2)
 	# validate shader
 	if not validate_shader_compilation(shader):
 		return ["Shader compilation failed!"]
@@ -105,6 +106,9 @@ func update(overwrite_image_path: String = "") -> Array: # returns error message
 	image_sprite.material = mat
 	# iterate n times
 	set_vsync(false) # speed up processing
+	if has_steps_uniform:
+		# set STEPS param
+		mat.set_shader_parameter("STEPS", steps)
 	for i in range(steps):
 		if has_step_uniform:
 			# set STEP param

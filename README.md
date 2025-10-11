@@ -1,3 +1,5 @@
+> [!WARNING]  
+> This project is canceled in favour of [Pigment](https://remotebranch.eu/ChaoticByte/Pigment).
 
 <h1 align=center>Fragmented</h1>
 
